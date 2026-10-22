@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Captioning Research Intelligence Platform (2021–2026)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfbf7;
+            color: #1e293b;
+        }
+        
+        .serif {
+            font-family: 'Merriweather', serif;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        .tab-btn.active {
+            border-bottom: 2px solid #065f46;
+            color: #065f46;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-[#fdfbf7] text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-[#fdfbf7]/90 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="text-2xl p-1.5 bg-emerald-100 rounded-lg text-emerald-800 font-bold">🧠</span>
+                <div>
+                    <h1 class="font-bold text-slate-900 text-sm sm:text-base leading-tight">Image Captioning Research Platform</h1>
+                    <p class="text-xs text-slate-500">PyTorch + BLIP Local Model Dashboard (2021–2026)</p>
+                </div>
+            </div>
+
+            <!-- Desktop View Navigation Tabs -->
+            <nav class="hidden lg:flex space-x-1 lg:space-x-2 text-xs font-medium text-slate-600">
+                <button onclick="switchTab('overview')" id="tab-overview" class="tab-btn active px-2.5 py-2 transition">Overview</button>
+                <button onclick="switchTab('playground')" id="tab-playground" class="tab-btn px-2.5 py-2 transition text-emerald-800 font-bold flex items-center gap-1">
+                    <span>⚡</span> Live Model Studio
+                </button>
+                <button onclick="switchTab('papers')" id="tab-papers" class="tab-btn px-2.5 py-2 transition">Paper Matrix</button>
+                <button onclick="switchTab('comparator')" id="tab-comparator" class="tab-btn px-2.5 py-2 transition">Datasets</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
+
+        <!-- SECTION 1: OVERVIEW -->
+        <section id="sec-overview" class="space-y-8">
+            <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
+                <div class="max-w-4xl space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-semibold">
+                        <span>🔍</span> PyTorch Local Backend Integration Active
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight serif">
+                        Image Captioning Research & Live Inference Platform
+                    </h2>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        This platform connects directly to your local PyTorch model serving BLIP vision-language weights over a FastAPI REST microservice running at <code>http://localhost:8000</code>.
+                    </p>
+
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <button onclick="switchTab('playground')" class="px-4 py-2 bg-emerald-800 hover:bg-emerald-900 text-white font-bold rounded-lg text-xs shadow transition flex items-center gap-2">
+                            <span>⚡</span> Launch Live Studio & Upload Image
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: LIVE MODEL STUDIO -->
+        <section id="sec-playground" class="space-y-6 hidden">
+            <div>
+                <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-800">
+                    <span>⚡</span> Live Vision Lab & PyTorch Model Integration
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 serif">Upload Image to Run PyTorch Model Inference</h3>
+                <p class="text-xs text-slate-600 mt-1">
+                    Upload an image from your computer to send it directly to your local FastAPI backend running BLIP.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Image Upload Panel -->
+                <div class="lg:col-span-5 space-y-4">
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                        <label class="block text-xs font-bold text-slate-800">1. Upload Image from your Mac</label>
+
+                        <div class="border-2 border-dashed border-emerald-300 rounded-lg p-6 text-center bg-emerald-50/30 hover:bg-emerald-50 transition relative">
+                            <input type="file" id="userImageUpload" accept="image/*" onchange="previewImage(event)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                            <div class="text-xs text-emerald-800 font-bold">📁 Click here to select image</div>
+                            <div class="text-[10px] text-slate-500 mt-1">Supports JPG, PNG, and WebP</div>
+                        </div>
+
+                        <!-- Image Preview Box -->
+                        <div class="relative bg-slate-900 rounded-lg overflow-hidden flex items-center justify-center min-h-[220px]">
+                            <img id="imagePreview" class="max-w-full max-h-[280px] object-contain hidden" alt="Uploaded Image Preview">
+                            <span id="previewPlaceholder" class="text-xs text-slate-400">Image preview will appear here</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                        <button onclick="runInferenceSimulation()" class="w-full py-2.5 bg-emerald-800 hover:bg-emerald-900 text-white font-bold rounded-lg text-xs shadow transition flex items-center justify-center gap-2">
+                            <span>🚀</span> Run Local PyTorch Model
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Model Output Panel -->
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between border-b pb-3">
+                            <div>
+                                <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full">
+                                    PyTorch + BLIP Base (Local)
+                                </span>
+                                <h4 class="text-sm font-bold text-slate-900 mt-1">Real-time PyTorch Caption Output</h4>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[10px] text-slate-400 block font-mono">LATENCY</span>
+                                <span id="outputLatency" class="text-xs font-bold text-slate-700">0 ms</span>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl min-h-[80px]">
+                            <p id="captionOutputText" class="text-xs sm:text-sm text-slate-800 leading-relaxed">
+                                Upload an image on the left and click "Run Local PyTorch Model" to generate a description.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 border-t pt-3 text-center">
+                            <div class="p-2 bg-slate-50 rounded-lg">
+                                <div class="text-xs font-bold text-slate-500">Word Count</div>
+                                <div id="diagWordCount" class="text-base font-bold text-slate-900">0</div>
+                            </div>
+                            <div class="p-2 bg-slate-50 rounded-lg">
+                                <div class="text-xs font-bold text-slate-500">API Endpoint</div>
+                                <div class="text-xs font-bold text-emerald-700 mt-1">localhost:8000</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: PAPERS MATRIX -->
+        <section id="sec-papers" class="space-y-6 hidden">
+            <h3 class="text-xl font-bold text-slate-900 serif">Literature Survey Matrix (2021–2026)</h3>
+            <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm p-4 text-xs space-y-2">
+                <p><strong>VinVL (2021):</strong> Object detectors extracting bounding box proposals (140.9 CIDEr on COCO).</p>
+                <p><strong>BLIP-2 (2023):</strong> Q-Former adapter bridging frozen ViT with frozen LLM (Flan-T5).</p>
+                <p><strong>LLaVA-1.5 (2023):</strong> 2-layer MLP connector linking CLIP-ViT to Vicuna LLM.</p>
+                <p><strong>ShareGPT4V (2024):</strong> 1.2M GPT-4V synthetic detailed captions (~140 words).</p>
+                <p><strong>COCONut-PanCap (2025):</strong> Panoptic Grounded Captioning with 13.2 pixel masks per image.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 4: DATASET COMPARATOR -->
+        <section id="sec-comparator" class="space-y-6 hidden">
+            <h3 class="text-xl font-bold text-slate-900 serif">Dataset Comparison</h3>
+            <div class="bg-white p-4 rounded-xl border grid grid-cols-2 gap-4 text-xs">
+                <div>
+                    <h4 class="font-bold text-slate-900">MS COCO (2014)</h4>
+                    <p>Scale: 123K images / ~600K captions</p>
+                    <p>Avg Words: ~10.5 words</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-900">ShareGPT4V (2024)</h4>
+                    <p>Scale: 1.2M pre-training captions</p>
+                    <p>Avg Words: ~143.6 words</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- JS Logic -->
+    <script>
+        function switchTab(tabId) {
+            ['overview', 'playground', 'papers', 'comparator'].forEach(t => {
+                const sec = document.getElementById(`sec-${t}`);
+                if (sec) sec.classList.toggle('hidden', t !== tabId);
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('imagePreview');
+                    img.src = e.target.result;
+                    img.classList.remove('hidden');
+                    document.getElementById('previewPlaceholder').classList.add('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function runInferenceSimulation() {
+            const outputTextEl = document.getElementById('captionOutputText');
+            const latencyEl = document.getElementById('outputLatency');
+            const imageInput = document.getElementById('userImageUpload');
+
+            if (!imageInput.files || imageInput.files.length === 0) {
+                outputTextEl.textContent = "Please select an image file first!";
+                return;
+            }
+
+            const file = imageInput.files[0];
+            const formData = new FormData();
+            formData.append("file", file);
+
+            outputTextEl.textContent = "Processing image through local PyTorch model at http://localhost:8000/caption...";
+
+            try {
+                const response = await fetch("http://localhost:8000/caption?temperature=0.7&top_k=5", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server returned status ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // Update UI with real caption and latency from PyTorch
+                outputTextEl.textContent = data.caption;
+                latencyEl.textContent = `${data.latency_ms} ms`;
+                document.getElementById('diagWordCount').textContent = data.word_count;
+            } catch (error) {
+                outputTextEl.textContent = "Error connecting to PyTorch server. Make sure 'python app.py' is running in your terminal!";
+                console.error("API Error:", error);
+            }
+        }
+    </script>
+</body>
+</html>
