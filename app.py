@@ -1,17 +1,18 @@
 import uvicorn
-from fastapi import FastAPI, File, UploadFile, HTTPException, Query
+from fastapi import FastAPI, File, UploadFile, HTTPException, Query, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from typing import List, Dict, Any
 from model_pipeline import ProductionCaptionPipeline
+from evaluate import ProductionEvaluator
+from database import init_db, log_inference, get_recent_logs
 
-# Initialize FastAPI Application
 app = FastAPI(
-    title="Image Captioning Microservice API",
-    description="Production REST endpoint for generating visual captions from uploaded images.",
+    title="CaptionLens Production API",
+    description="Vision-Language Inference & SQLite Logging Microservice",
     version="1.0.0"
 )
 
-# Enable Cross-Origin Resource Sharing (CORS) for front-end integration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -20,11 +21,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Load PyTorch Pipeline Context on Startup
-print("Initializing PyTorch Model Pipeline...")
+print("Initializing PyTorch Model Pipeline & SQLite Database...")
+init_db()
 pipeline = ProductionCaptionPipeline()
-print(f"Model successfully loaded on device: {pipeline.device}")
+evaluator = ProductionEvaluator()
 
+class GroundingBox(BaseModel):
+    label: str
+    confidence: float
+    x: float
+    y: float
+    w: float
+    h: float
+    color: str
 
 class CaptionResponse(BaseModel):
     status: str
@@ -32,47 +41,26 @@ class CaptionResponse(BaseModel):
     word_count: int
     latency_ms: float
     device: str
-
+    grounding_boxes: List[GroundingBox]
 
 @app.get("/health")
 def health_check():
-    return {
-        "status": "online",
-        "device": str(pipeline.device),
-        "vocab_size": pipeline.vocab_size
-    }
-
+    return {"status": "online", "device": str(pipeline.device)}
 
 @app.post("/caption", response_model=CaptionResponse)
-async def generate_caption_endpoint(
-    file: UploadFile = File(...),
-    temperature: float = Query(0.7, ge=0.1, le=2.0, description="Sampling temperature"),
-    top_k: int = Query(5, ge=0, le=50, description="Top-k nucleus filtering parameter")
-):
-    # Validate MIME Type
-    if file.content_type not in ["image/jpeg", "image/jpg", "image/png", "image/webp"]:
-        raise HTTPException(
-            status_code=400, 
-            detail="Invalid file format. Only JPEG, PNG, and WebP images are supported."
-        )
+async def generate_caption_endpoint(file: UploadFile = File(...)):
+    image_bytes = await file.read()
+    result = pipeline.generate_caption(image_bytes=image_bytes)
+    
+    # Log inference run to SQLite
+    log_inference(result)
+    
+    return CaptionResponse(status="success", **result)
 
-    try:
-        image_bytes = await file.read()
-        result = pipeline.generate_caption(
-            image_bytes=image_bytes,
-            temperature=temperature,
-            top_k=top_k
-        )
-        return CaptionResponse(
-            status="success",
-            caption=result["caption"],
-            word_count=result["word_count"],
-            latency_ms=result["latency_ms"],
-            device=result["device"]
-        )
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Inference error: {str(e)}")
-
+@app.get("/logs")
+def get_logs_endpoint(limit: int = 10):
+    """Retrieves past experiment logs from SQLite."""
+    return {"status": "success", "logs": get_recent_logs(limit)}
 
 if __name__ == "__main__":
     uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)

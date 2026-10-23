@@ -1,0 +1,23 @@
+cat << 'EOF' > .gitignore
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# Database & Logs
+*.db
+*.sqlite3
+
+# Model Weights & Checkpoints
+fine_tuned_blip_lora/
+.cache/
+huggingface/
+
+# IDE / OS
+.DS_Store
+.vscode/
+.idea/
+EOF
