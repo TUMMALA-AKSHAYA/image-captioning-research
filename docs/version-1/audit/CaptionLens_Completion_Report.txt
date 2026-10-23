@@ -1,0 +1,21 @@
+CAPTIONLENS UPDATE — COMPLETION REPORT
+Search cutoff: 2026-10-23
+
+Files created:
+1. CaptionLens_Complete_Updated_Research_Review.docx
+2. CaptionLens_Literature_and_Audit_Workbook.xlsx
+3. CaptionLens_Literature_Yearwise_2021_2026.csv
+4. CaptionLens_IITH_Research_Supplement.docx
+5. CaptionLens_IITH_Research_Supplement.csv
+6. CaptionLens_Claim_Verification.csv
+7. CaptionLens_Research_Search_Log.csv
+8. CaptionLens_Change_Log.csv
+9. CaptionLens_Professor_Ready_Updated_Research_Presentation.pptx
+
+Important limitations:
+- The original 12-slide working draft was preserved untouched in the project Library. The new PPTX is a separate newly authored presentation, not a pixel-perfect clone.
+- A standalone full-length main research report could not be located as an accessible file; the available executive-summary text is preserved verbatim in Appendix A of the updated DOCX.
+- The review is a scoped evidence-backed update, not an exhaustive systematic review. Search result counts were not recorded; no PRISMA flow numbers are claimed.
+- Some paper author lists, dataset splits, metrics, and publication-status fields are explicitly marked pending/unverified rather than invented.
+- No CaptionLens experiments were run. All methodology/outcome statements about CaptionLens are proposals or hypotheses.
+- IITH-relevant image-captioning papers were found on official IITH sources; the earlier preliminary null finding is corrected.

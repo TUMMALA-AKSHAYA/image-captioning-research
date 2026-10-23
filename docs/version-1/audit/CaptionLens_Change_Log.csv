@@ -1,0 +1,11 @@
+﻿Change ID,Addition / correction,Reason,Affected artifact / section,Evidence status
+C01,Preserved the original 12-slide deck as a separate untouched file,Non-negotiable preservation rule,Original Image_Captioning_Literature_Survey_2021_2025.pptx,Original file remains unchanged
+C02,"Added explicit task labels for captioning, VQA, retrieval, medical report generation and metrics",Prevent task conflation,Literature worksheet and updated report,Supported by primary paper abstracts / official sources
+C03,Corrected BLIP-2 8.7% claim context,"The figure refers to zero-shot VQAv2, not captioning",Executive summary verification notes; claims table,Verified from BLIP-2 arXiv abstract
+C04,Corrected LLaVA 85.1% claim context,The figure is relative score on synthetic multimodal instruction-following evaluation,Executive summary verification notes; claims table,Verified from LLaVA arXiv abstract
+C05,Replaced prior IITH null finding with verified relevant publications,Official IITH pages list several captioning papers,IITH supplement and literature table,Verified publication records; full metrics pending
+C06,Flagged MM-SeR and 34% synthetic-caption hallucination claims as unverified,No primary source identified in accessible search,Updated report and claims table,Do not use as factual findings
+C07,"Flagged DOCCI split, PanoCaps mask count and other unsupported exact values",Avoid invented precision,Dataset audit / claims table,Official release metadata still needs inspection
+C08,Added MIMIC-CXR access/DUA/privacy caution,Avoid treating credentialed medical data as unrestricted,Dataset audit and report,Verified from PhysioNet
+C09,Added ALOHa and OpenCHAIR/MOCHa as close prior work,Novelty comparison needs nearest neighbors,Literature table and research direction,Verified from ACL Anthology
+C10,Created reproducibility-oriented proposed experimental plan,No unrun experiments presented as results,Updated report and PowerPoint,Proposal only; no results generated
