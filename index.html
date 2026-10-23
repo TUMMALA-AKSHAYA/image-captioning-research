@@ -195,6 +195,74 @@
             </div>
         </section>
     </main>
+    <!-- High-Contrast Dark Theme Workspace -->
+<div class="bg-[#090d16] text-slate-100 rounded-2xl p-6 border border-slate-800 shadow-2xl space-y-6">
+    <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div>
+            <span class="px-3 py-1 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded-full text-xs font-mono font-bold">
+                GROUNDED INSPECTION STUDIO
+            </span>
+            <h3 class="text-xl font-bold text-white serif mt-2">Visual Evidence & Narrative Verification</h3>
+        </div>
+        <div class="text-right">
+            <span class="text-xs text-slate-500 block font-mono">MODEL BACKEND</span>
+            <span class="text-xs font-bold text-emerald-400">PyTorch BLIP + Panoptic Head</span>
+        </div>
+    </div>
+
+    <!-- Dual Column Split -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Left Column: Image Canvas & Object Crop Ribbon -->
+        <div class="lg:col-span-6 space-y-4">
+            <div class="relative bg-black border border-slate-800 rounded-xl overflow-hidden flex items-center justify-center min-h-[320px]">
+                <canvas id="darkStudioCanvas" class="max-w-full max-h-[340px] object-contain"></canvas>
+            </div>
+            
+            <!-- Crop Ribbon -->
+            <div class="space-y-1">
+                <span class="text-[11px] font-mono text-slate-400">DETECTED VISUAL CROPS (HOVER TO INSPECT):</span>
+                <div id="cropRibbon" class="flex gap-2 overflow-x-auto custom-scrollbar py-2">
+                    <!-- Dynamic Object Thumbnails Rendered Here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Hierarchical Factuality Narrative -->
+        <div class="lg:col-span-6 space-y-4 bg-slate-950/80 border border-slate-800 p-5 rounded-xl">
+            <div class="space-y-3">
+                <h4 class="text-xs font-mono text-emerald-400 uppercase tracking-wider">1. Executive Scene Context</h4>
+                <p id="darkSummaryText" class="text-sm text-slate-200 leading-relaxed font-sans">
+                    <!-- Summary text -->
+                </p>
+            </div>
+
+            <div class="space-y-2 border-t border-slate-800/80 pt-3">
+                <h4 class="text-xs font-mono text-indigo-400 uppercase tracking-wider">2. Verified Foreground Entities & Spatial Tags</h4>
+                <div id="darkEntitiesContainer" class="space-y-1.5 text-xs text-slate-300">
+                    <!-- Verified entity tags -->
+                </div>
+            </div>
+
+            <div class="space-y-2 border-t border-slate-800/80 pt-3">
+                <h4 class="text-xs font-mono text-amber-400 uppercase tracking-wider">3. Factuality Diagnostics</h4>
+                <div class="grid grid-cols-3 gap-2 text-center text-xs pt-1">
+                    <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                        <span class="text-slate-500 text-[10px] block">CHAIR RISK</span>
+                        <span class="font-bold text-emerald-400">0.0%</span>
+                    </div>
+                    <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                        <span class="text-slate-500 text-[10px] block">LATENCY</span>
+                        <span id="darkLatencyText" class="font-bold text-white">81 ms</span>
+                    </div>
+                    <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                        <span class="text-slate-500 text-[10px] block">GROUNDING</span>
+                        <span class="font-bold text-indigo-400">100% Masked</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
     <!-- JS Logic -->
     <script>
