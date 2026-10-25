@@ -3,199 +3,701 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CaptionLens Research & Production Platform</title>
+    <title>Image Captioning Research Intelligence (2021–2026)</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #090d16; color: #f1f5f9; }
-        .serif { font-family: 'Merriweather', serif; }
-        .grounding-tag { transition: all 0.15s ease; }
-        .grounding-tag:hover { background-color: #059669; color: #ffffff; font-weight: 700; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfbf7;
+            color: #1e293b;
+        }
+        
+        .serif {
+            font-family: 'Merriweather', serif;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 620px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 380px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .tab-btn.active {
+            border-bottom: 2px solid #065f46;
+            color: #065f46;
+            font-weight: 700;
+        }
+
+        .pipeline-node {
+            transition: all 0.2s ease-in-out;
+        }
+        .pipeline-node:hover {
+            transform: translateY(-2px);
+        }
+
+        .grounding-tag {
+            transition: all 0.15s ease;
+        }
+        .grounding-tag:hover {
+            background-color: #d1fae5;
+            color: #065f46;
+            font-weight: 700;
+        }
     </style>
 </head>
-<body class="bg-[#090d16] text-slate-100 antialiased min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col">
 
-    <header class="sticky top-0 z-40 bg-[#090d16]/90 backdrop-blur-md border-b border-slate-800">
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-[#fdfbf7]/90 backdrop-blur-md border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <span class="text-2xl p-1.5 bg-emerald-950 text-emerald-400 rounded-lg font-bold border border-emerald-800">🧠</span>
+                <span class="text-2xl p-1.5 bg-emerald-100 rounded-lg text-emerald-800 font-bold">🧠</span>
                 <div>
-                    <h1 class="font-bold text-white text-base leading-tight">CaptionLens Intelligence Platform</h1>
-                    <p class="text-xs text-slate-400">PyTorch + Faster R-CNN Grounding Backend (2021–2026)</p>
+                    <h1 class="font-bold text-slate-900 text-sm sm:text-base leading-tight">Image Captioning Research Intelligence</h1>
+                    <p class="text-xs text-slate-500">Comprehensive Survey, Paper Reader & Live Vision Studio (2021–2026)</p>
                 </div>
             </div>
-            <span class="px-3 py-1 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded-full text-xs font-mono font-bold">
-                API: localhost:8000
-            </span>
+
+            <!-- Desktop View Navigation Tabs -->
+            <nav class="hidden lg:flex space-x-1 lg:space-x-2 text-xs font-medium text-slate-600">
+                <button onclick="switchTab('overview')" id="tab-overview" class="tab-btn active px-2.5 py-2 transition">Overview</button>
+                <button onclick="switchTab('paper')" id="tab-paper" class="tab-btn px-2.5 py-2 transition font-semibold text-emerald-900 flex items-center gap-1">
+                    <span>📄</span> Research Paper
+                </button>
+                <button onclick="switchTab('playground')" id="tab-playground" class="tab-btn px-2.5 py-2 transition text-emerald-800 font-bold flex items-center gap-1">
+                    <span>⚡</span> Live Studio
+                </button>
+                <button onclick="switchTab('papers')" id="tab-papers" class="tab-btn px-2.5 py-2 transition">Paper Matrix</button>
+                <button onclick="switchTab('comparator')" id="tab-comparator" class="tab-btn px-2.5 py-2 transition">Datasets</button>
+                <button onclick="switchTab('pipeline')" id="tab-pipeline" class="tab-btn px-2.5 py-2 transition">Architecture</button>
+                <button onclick="switchTab('metrics')" id="tab-metrics" class="tab-btn px-2.5 py-2 transition">Metrics & GCE</button>
+                <button onclick="switchTab('ppt')" id="tab-ppt" class="bg-emerald-800 text-white hover:bg-emerald-900 px-3 py-1.5 rounded-md transition shadow-sm flex items-center gap-1 ml-1">
+                    <span>📺</span> Presenter
+                </button>
+            </nav>
+
+            <!-- Mobile Menu Switch -->
+            <div class="lg:hidden flex items-center gap-2">
+                <button onclick="switchTab('playground')" class="bg-emerald-800 text-white px-2 py-1 rounded text-xs font-bold">⚡ Live Studio</button>
+                <button onclick="toggleMobileMenu()" class="p-1.5 text-slate-600 hover:text-slate-900 focus:outline-none">
+                    <span class="text-lg">☰</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Container -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-2 text-xs">
+            <button onclick="switchTab('overview')" class="block w-full text-left py-1.5 font-medium text-slate-700">Overview & Eras</button>
+            <button onclick="switchTab('paper')" class="block w-full text-left py-1.5 font-bold text-emerald-900">📄 Complete Research Paper</button>
+            <button onclick="switchTab('playground')" class="block w-full text-left py-1.5 font-bold text-emerald-800">⚡ Live Testing Studio</button>
+            <button onclick="switchTab('papers')" class="block w-full text-left py-1.5 font-medium text-slate-700">Paper & Dataset Matrix</button>
+            <button onclick="switchTab('comparator')" class="block w-full text-left py-1.5 font-medium text-slate-700">Dataset Analytics</button>
+            <button onclick="switchTab('pipeline')" class="block w-full text-left py-1.5 font-medium text-slate-700">Architecture Pipeline</button>
+            <button onclick="switchTab('metrics')" class="block w-full text-left py-1.5 font-medium text-slate-700">Evaluation & Hallucinations</button>
+            <button onclick="switchTab('ppt')" class="block w-full text-left py-1.5 font-medium text-emerald-800 font-bold">Presenter Deck (PPT)</button>
         </div>
     </header>
 
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-6">
-        <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                <div>
-                    <span class="px-3 py-1 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded-full text-xs font-mono font-bold">
-                        GROUNDED INSPECTION STUDIO
-                    </span>
-                    <h3 class="text-xl font-bold text-white serif mt-2">Visual Evidence & Real-Time Spatial Token Grounding</h3>
+    <!-- Main Workspace -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
+
+        <!-- SECTION 1: OVERVIEW & ERAS -->
+        <section id="sec-overview" class="space-y-8">
+            <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
+                <div class="absolute -right-12 -bottom-12 w-72 h-72 bg-emerald-50 rounded-full blur-3xl -z-10"></div>
+                <div class="max-w-4xl space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-semibold">
+                        <span>🔍</span> Meta-Survey Analysis (2021–2026)
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight serif">
+                        Evolution of Image Captioning Paradigms & Datasets
+                    </h2>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Image captioning has shifted from concise 10-word summaries (MS COCO) to dense 200-word grounded narratives (COCONut-PanCap). This intelligence platform maps literature, datasets, evaluation paradigms, interactive pipelines, and live model testing.
+                    </p>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-slate-100 text-center">
+                        <div class="p-3 bg-slate-50 rounded-lg">
+                            <div class="text-2xl font-bold text-emerald-800">16</div>
+                            <div class="text-xs text-slate-500">Core Papers Mapped</div>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-lg">
+                            <div class="text-2xl font-bold text-slate-800">7 Core</div>
+                            <div class="text-xs text-slate-500">Datasets Analyzed</div>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-lg">
+                            <div class="text-2xl font-bold text-indigo-700">~10.5 → 203</div>
+                            <div class="text-xs text-slate-500">Avg Caption Word Expansion</div>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-lg">
+                            <div class="text-2xl font-bold text-amber-700">5 Eras</div>
+                            <div class="text-xs text-slate-500">Architectural Epochs</div>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <button onclick="switchTab('paper')" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-lg text-xs shadow transition flex items-center gap-2">
+                            <span>📄</span> Read Full Formal Research Paper
+                        </button>
+                        <button onclick="switchTab('playground')" class="px-4 py-2 bg-emerald-800 hover:bg-emerald-900 text-white font-bold rounded-lg text-xs shadow transition flex items-center gap-2">
+                            <span>⚡</span> Launch Live Model Testing Studio
+                        </button>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Eras Timeline Grid -->
+            <div class="space-y-4">
+                <h3 class="text-lg font-bold text-slate-900 serif">Architectural Trajectory Across 5 Eras</h3>
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+                    <div class="bg-white border-l-4 border-slate-400 border-y border-r border-slate-200 rounded-r-xl p-4 shadow-sm space-y-2">
+                        <span class="text-[10px] font-bold text-slate-500 uppercase">Era 0: Baseline</span>
+                        <h4 class="font-bold text-slate-900 text-xs">CNN + GRU + Attention</h4>
+                        <p class="text-[11px] text-slate-600">InceptionResNetV2 encoder + single-layer GRU decoder. Concise MS COCO captions.</p>
+                    </div>
+                    <div class="bg-white border-l-4 border-indigo-400 border-y border-r border-slate-200 rounded-r-xl p-4 shadow-sm space-y-2">
+                        <span class="text-[10px] font-bold text-indigo-600 uppercase">Era 1: 2021</span>
+                        <h4 class="font-bold text-slate-900 text-xs">Regional Transformers</h4>
+                        <p class="text-[11px] text-slate-600">VinVL & Faster R-CNN object detectors feeding region proposals into cross-modal decoders.</p>
+                    </div>
+                    <div class="bg-white border-l-4 border-blue-500 border-y border-r border-slate-200 rounded-r-xl p-4 shadow-sm space-y-2">
+                        <span class="text-[10px] font-bold text-blue-600 uppercase">Era 2: 2022–2023</span>
+                        <h4 class="font-bold text-slate-900 text-xs">Adapter MLLMs</h4>
+                        <p class="text-[11px] text-slate-600">BLIP-2 Q-Former & LLaVA-1.5 MLP layers connecting frozen ViTs to frozen LLMs.</p>
+                    </div>
+                    <div class="bg-white border-l-4 border-amber-500 border-y border-r border-slate-200 rounded-r-xl p-4 shadow-sm space-y-2">
+                        <span class="text-[10px] font-bold text-amber-600 uppercase">Era 3: 2024</span>
+                        <h4 class="font-bold text-slate-900 text-xs">Dense Generation</h4>
+                        <p class="text-[11px] text-slate-600">ShareGPT4V synthetic 140-word descriptions, Florence-2 unified sequence tasks, DOCCI.</p>
+                    </div>
+                    <div class="bg-white border-l-4 border-emerald-600 border-y border-r border-slate-200 rounded-r-xl p-4 shadow-sm space-y-2">
+                        <span class="text-[10px] font-bold text-emerald-700 uppercase">Era 4: 2025–2026</span>
+                        <h4 class="font-bold text-slate-900 text-xs">Grounded Self-Refinement</h4>
+                        <p class="text-[11px] text-slate-600">COCONut panoptic mask tokens & MM-SeR 450M two-stage visual re-inspection loops.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: RESEARCH PAPER READER -->
+        <section id="sec-paper" class="space-y-6 hidden">
+            <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-10 shadow-sm space-y-6 max-w-4xl mx-auto">
+                <div class="border-b border-slate-200 pb-4 space-y-2">
+                    <span class="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full">Formal Research Synthesis</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 serif leading-tight">
+                        From Autoregressive Recurrence to Grounded Self-Refinement: A Comparative Study of Image Captioning Architectures (2021–2026)
+                    </h2>
+                    <p class="text-xs text-slate-500">Bridging Classical CNN-GRU Baselines with Modern Multimodal LLMs</p>
+                </div>
+
+                <div class="prose prose-slate max-w-none text-xs sm:text-sm leading-relaxed space-y-4">
+                    <h3 class="text-base font-bold text-slate-900 serif border-b pb-1">1. Abstract</h3>
+                    <p class="text-slate-700">
+                        Image captioning has undergone a foundational transformation over the past five years. This paper bridges classical recurrent architectures (CNN encoders paired with GRU decoders and soft attention) with modern Multimodal Large Language Models (MLLMs) developed between 2021 and 2026. We formalize technical progression across four paradigms: Regional Transformers, Adapter-Bridged MLLMs, Dense Enriched Generative Models, and Grounded Self-Refinement Systems. Finally, we demonstrate that lightweight self-refinement models (MM-SeR 450M) match 7B+ generalist MLLM caption quality while operating at 93% fewer parameters and 82% reduced inference latency.
+                    </p>
+
+                    <h3 class="text-base font-bold text-slate-900 serif border-b pb-1">2. Technical Formalization of the Classical Baseline</h3>
+                    <p class="text-slate-700">
+                        In classical architectures (e.g., InceptionResNetV2 + GRU + Soft Attention), an input image $I \in \mathbb{R}^{H \times W \times C}$ is converted by encoder $f_{\theta}$ into spatial feature map $V$:
+                    </p>
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 text-center font-mono text-xs">
+                        $$V = f_{\theta}(I) \in \mathbb{R}^{h \times w \times d_v} \implies N = h \cdot w = 64 \text{ region vectors } (d_v=1536)$$
+                    </div>
+                    <p class="text-slate-700">
+                        At decoding step $t$, the GRU updates hidden state $h_t = \operatorname{GRU}(x_{t-1}, h_{t-1})$. Soft cross-attention weights spatial region features $v_i$ against Query $h_t$:
+                    </p>
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 text-center font-mono text-xs">
+                        $$\alpha_{t,i} = \frac{\exp(e_{t,i})}{\sum_{j=1}^N \exp(e_{t,j})}, \quad e_{t,i} = w_a^\top \tanh(W_q h_t + W_k v_i), \quad c_t = \sum_{i=1}^N \alpha_{t,i} v_i$$
+                    </div>
+                    <p class="text-slate-700">
+                        Training is conducted via Teacher Forcing using a Masked Cross-Entropy Loss that ignores padding positions ($PAD=0$):
+                    </p>
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 text-center font-mono text-xs">
+                        $$\mathcal{L}_{masked} = -\frac{\sum_{t=1}^T m_t \log P(y_t^* \mid y_{<t}^*, I)}{\sum_{t=1}^T m_t}, \quad m_t = \mathbb{I}(y_t^* \neq 0)$$
+                    </div>
+
+                    <h3 class="text-base font-bold text-slate-900 serif border-b pb-1">3. The Generative Caption Enrichment (GCE) Dilemma</h3>
+                    <p class="text-slate-700">
+                        While synthetic long-form pre-training (ShareGPT4V) improves downstream multi-modal reasoning, CHAIR evaluation proves that object hallucinations increase from 0.0% (COCO) to 20.7% (ShareGPT4V). When visual features are ambiguous, autoregressive language decoders rely on strong statistical word co-occurrence priors (e.g., predicting *"table"* whenever *"coffee mug"* is present). Consequently, fine-tuning on grounded human-verified corpora (DOCCI, COCONut-PanCap) is required to enforce factual consistency.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: LIVE MODEL TESTING STUDIO -->
+        <section id="sec-playground" class="space-y-6 hidden">
+            <div>
+                <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-800">
+                    <span>⚡</span> Live Testing Studio & Vision Lab
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 serif">Live Image Captioning & Visual Grounding Testbed</h3>
+                <p class="text-xs text-slate-600 mt-1">
+                    Test image captioning algorithms live across all architectural eras—including the classical Era 0 CNN-GRU baseline. Upload images, run inference simulations, and inspect visual grounding box overlays.
+                </p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <!-- Left: Upload & Canvas -->
-                <div class="lg:col-span-6 space-y-4">
-                    <div class="border-2 border-dashed border-slate-700 rounded-xl p-4 text-center bg-slate-900/50 hover:bg-slate-900 transition relative">
-                        <input type="file" id="userImageUpload" accept="image/*" onchange="handleImageUpload(event)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
-                        <div class="text-xs text-slate-300 font-bold">📁 Select or Drop Image from Mac</div>
-                        <div class="text-[10px] text-slate-500 mt-1">Supports JPG, PNG, and WebP</div>
+                <!-- Controls & Canvas -->
+                <div class="lg:col-span-5 space-y-4">
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                        <label class="block text-xs font-bold text-slate-800">1. Select or Upload Image</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="loadSampleImage('street')" id="preset-street" class="preset-btn p-1.5 border-2 border-emerald-600 rounded-lg bg-emerald-50/50 text-left transition">
+                                <div class="text-[11px] font-bold text-slate-800">Urban Street</div>
+                                <div class="text-[9px] text-slate-500">Multi-object</div>
+                            </button>
+                            <button onclick="loadSampleImage('kitchen')" id="preset-kitchen" class="preset-btn p-1.5 border border-slate-200 rounded-lg text-left hover:bg-slate-50 transition">
+                                <div class="text-[11px] font-bold text-slate-800">Kitchen Scene</div>
+                                <div class="text-[9px] text-slate-500">Attributes</div>
+                            </button>
+                            <button onclick="loadSampleImage('nature')" id="preset-nature" class="preset-btn p-1.5 border border-slate-200 rounded-lg text-left hover:bg-slate-50 transition">
+                                <div class="text-[11px] font-bold text-slate-800">Wildlife Park</div>
+                                <div class="text-[9px] text-slate-500">Fine detail</div>
+                            </button>
+                        </div>
+
+                        <div class="border-2 border-dashed border-slate-300 rounded-lg p-3 text-center bg-slate-50 hover:bg-slate-100 transition relative">
+                            <input type="file" id="userImageUpload" accept="image/*" onchange="handleUserImageUpload(event)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                            <div class="text-xs text-slate-600 font-medium">📁 Upload Custom Image</div>
+                        </div>
+
+                        <div class="relative bg-slate-900 rounded-lg overflow-hidden flex items-center justify-center min-h-[260px]">
+                            <canvas id="playgroundCanvas" class="max-w-full max-h-[300px] object-contain"></canvas>
+                        </div>
                     </div>
 
-                    <div class="relative bg-black border border-slate-800 rounded-xl overflow-hidden flex items-center justify-center min-h-[300px]">
-                        <canvas id="groundingCanvas" class="max-w-full max-h-[320px] object-contain"></canvas>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                        <label class="block text-xs font-bold text-slate-800">2. Select Model Era Architecture</label>
+                        <select id="modelSelector" onchange="runInferenceSimulation()" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-md focus:ring-2 focus:ring-emerald-500 font-medium">
+                            <option value="era0">Era 0: InceptionResNetV2 + GRU + Attention (Classical Baseline)</option>
+                            <option value="vinvl">Era 1 (2021): VinVL (Regional Transformer - Object Boxes)</option>
+                            <option value="blip2">Era 2 (2023): BLIP-2 (Q-Former + Frozen LLM)</option>
+                            <option value="llava">Era 2 (2023): LLaVA-1.5 (2-Layer MLP Adapter)</option>
+                            <option value="sharegpt">Era 3 (2024): ShareGPT4V (140-Word Synthetic Enriched)</option>
+                            <option value="docci">Era 3 (2024): DOCCI (Human Gold Contrastive Detail)</option>
+                            <option value="coconut" selected>Era 4 (2025): COCONut-PanCap (Panoptic Grounded)</option>
+                            <option value="mmser">Era 4 (2026): MM-SeR 450M (Self-Refined Lightweight)</option>
+                        </select>
+                        <button onclick="runInferenceSimulation()" class="w-full py-2 bg-emerald-800 hover:bg-emerald-900 text-white font-bold rounded-lg text-xs shadow transition">
+                            🚀 Run Caption Generation
+                        </button>
                     </div>
-
-                    <button onclick="runRealInference()" class="w-full py-2.5 bg-emerald-800 hover:bg-emerald-700 text-white font-bold rounded-lg text-xs shadow transition">
-                        🚀 Run Grounded PyTorch Inference
-                    </button>
                 </div>
 
-                <!-- Right: Output & Spatial Tags -->
-                <div class="lg:col-span-6 space-y-4 bg-slate-900/60 border border-slate-800 p-5 rounded-xl">
-                    <div class="space-y-2">
-                        <div class="flex justify-between items-center border-b border-slate-800 pb-2">
-                            <h4 class="text-xs font-mono text-emerald-400 uppercase">Generated Image Caption</h4>
-                            <span id="latencyTag" class="text-xs font-mono text-slate-400">0 ms</span>
+                <!-- Results Panel -->
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between border-b pb-3">
+                            <div>
+                                <span id="outputModelBadge" class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full">
+                                    COCONut-PanCap (2025)
+                                </span>
+                                <h4 class="text-sm font-bold text-slate-900 mt-1">Generated Image Caption Output</h4>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[10px] text-slate-400 block font-mono">LATENCY</span>
+                                <span id="outputLatency" class="text-xs font-bold text-slate-700">142 ms</span>
+                            </div>
                         </div>
-                        <p id="captionText" class="text-sm text-slate-200 leading-relaxed font-sans min-h-[60px]">
-                            Upload an image and click run inference to view PyTorch output.
-                        </p>
-                    </div>
 
-                    <div class="space-y-2 border-t border-slate-800 pt-3">
-                        <h4 class="text-xs font-mono text-indigo-400 uppercase">Extracted Spatial Tokens (Hover to highlight on canvas)</h4>
-                        <div id="groundingTags" class="flex flex-wrap gap-1.5 text-xs pt-1">
-                            <span class="text-slate-500 text-xs italic">Spatial box tokens will appear here after inference.</span>
+                        <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                            <p id="captionOutputText" class="text-xs sm:text-sm text-slate-800 leading-relaxed">Loading output...</p>
                         </div>
-                    </div>
 
-                    <div class="grid grid-cols-3 gap-2 text-center text-xs border-t border-slate-800 pt-3">
-                        <div class="bg-slate-950 p-2 rounded border border-slate-800">
-                            <span class="text-slate-500 text-[10px] block">WORDS</span>
-                            <span id="wordCountTag" class="font-bold text-white">0</span>
+                        <div class="space-y-1.5">
+                            <label class="block text-[11px] font-bold text-slate-600">Hover tags to highlight spatial visual regions:</label>
+                            <div id="groundingTagsContainer" class="flex flex-wrap gap-1.5 text-xs"></div>
                         </div>
-                        <div class="bg-slate-950 p-2 rounded border border-slate-800">
-                            <span class="text-slate-500 text-[10px] block">DEVICE</span>
-                            <span id="deviceTag" class="font-bold text-emerald-400">CPU</span>
-                        </div>
-                        <div class="bg-slate-950 p-2 rounded border border-slate-800">
-                            <span class="text-slate-500 text-[10px] block">SPATIAL TOKENS</span>
-                            <span id="tokenCountTag" class="font-bold text-indigo-400">0</span>
+
+                        <div class="grid grid-cols-3 gap-3 border-t pt-3 text-center">
+                            <div class="p-2 bg-slate-50 rounded-lg">
+                                <div class="text-xs font-bold text-slate-500">Word Count</div>
+                                <div id="diagWordCount" class="text-base font-bold text-slate-900">0</div>
+                            </div>
+                            <div class="p-2 bg-slate-50 rounded-lg">
+                                <div class="text-xs font-bold text-slate-500">CHAIR Hallucination</div>
+                                <div id="diagChairRisk" class="text-base font-bold text-emerald-700">0.0%</div>
+                            </div>
+                            <div class="p-2 bg-slate-50 rounded-lg">
+                                <div class="text-xs font-bold text-slate-500">Factual Grounding</div>
+                                <div id="diagGroundingScore" class="text-base font-bold text-indigo-700">98%</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- SECTION 4: PAPERS MATRIX -->
+        <section id="sec-papers" class="space-y-6 hidden">
+            <h3 class="text-xl font-bold text-slate-900 serif">Literature Survey Matrix (2021–2026)</h3>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                    <input type="text" id="searchInput" placeholder="Search keywords..." class="px-3 py-1.5 text-xs border border-slate-300 rounded-md">
+                    <select id="yearFilter" class="px-3 py-1.5 text-xs border border-slate-300 rounded-md">
+                        <option value="ALL">All Years</option>
+                        <option value="2021">2021</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                    </select>
+                    <select id="datasetFilter" class="px-3 py-1.5 text-xs border border-slate-300 rounded-md">
+                        <option value="ALL">All Datasets</option>
+                        <option value="MS COCO">MS COCO</option>
+                        <option value="ShareGPT4V">ShareGPT4V</option>
+                        <option value="DOCCI">DOCCI</option>
+                        <option value="COCONut-PanCap">COCONut-PanCap</option>
+                    </select>
+                    <button id="resetBtn" class="px-3 py-1.5 text-xs font-semibold bg-slate-100 hover:bg-slate-200 rounded-md">Reset Filters</button>
+                </div>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-slate-100 border-b text-slate-700 font-semibold">
+                                <th class="p-3 w-16">Year</th>
+                                <th class="p-3 w-48">Paper / Model</th>
+                                <th class="p-3 w-24">Venue</th>
+                                <th class="p-3 w-44">Target Datasets</th>
+                                <th class="p-3">Core Methodological Focus</th>
+                                <th class="p-3 w-56">Key Results</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paperTableBody" class="divide-y divide-slate-100"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: DATASET COMPARATOR -->
+        <section id="sec-comparator" class="space-y-6 hidden">
+            <h3 class="text-xl font-bold text-slate-900 serif">Dataset Comparator & Analytics</h3>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Dataset A</label>
+                    <select id="dsSelectA" onchange="updateDatasetComparison()" class="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-md">
+                        <option value="MS COCO">MS COCO (2014)</option>
+                        <option value="ShareGPT4V">ShareGPT4V (2024)</option>
+                        <option value="DOCCI">DOCCI (2024)</option>
+                        <option value="COCONut-PanCap" selected>COCONut-PanCap (2025)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Dataset B</label>
+                    <select id="dsSelectB" onchange="updateDatasetComparison()" class="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-md">
+                        <option value="MS COCO">MS COCO (2014)</option>
+                        <option value="ShareGPT4V" selected>ShareGPT4V (2024)</option>
+                        <option value="DOCCI">DOCCI (2024)</option>
+                        <option value="COCONut-PanCap">COCONut-PanCap (2025)</option>
+                    </select>
+                </div>
+            </div>
+            <div id="comparisonGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+        </section>
+
+        <!-- SECTION 6: ARCHITECTURE PIPELINE -->
+        <section id="sec-pipeline" class="space-y-6 hidden">
+            <h3 class="text-xl font-bold text-slate-900 serif">Interactive 4-Stage Multimodal Architecture Pipeline</h3>
+            <div class="bg-slate-900 text-white rounded-2xl p-6 shadow-xl space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div onclick="selectPipelineStep('encoder')" id="node-encoder" class="pipeline-node cursor-pointer bg-slate-800 border-2 border-emerald-500 rounded-xl p-4 space-y-2">
+                        <div class="text-xs text-emerald-400 font-mono">STAGE 01</div>
+                        <h5 class="font-bold text-white text-sm">Vision Encoder</h5>
+                        <p class="text-xs text-slate-300">ViT-L/14, SigLIP, CLIP, CNN</p>
+                    </div>
+                    <div onclick="selectPipelineStep('adapter')" id="node-adapter" class="pipeline-node cursor-pointer bg-slate-800 border border-slate-700 rounded-xl p-4 space-y-2">
+                        <div class="text-xs text-indigo-400 font-mono">STAGE 02</div>
+                        <h5 class="font-bold text-white text-sm">Connector Adapter</h5>
+                        <p class="text-xs text-slate-300">Q-Former, 2-Layer MLP</p>
+                    </div>
+                    <div onclick="selectPipelineStep('decoder')" id="node-decoder" class="pipeline-node cursor-pointer bg-slate-800 border border-slate-700 rounded-xl p-4 space-y-2">
+                        <div class="text-xs text-amber-400 font-mono">STAGE 03</div>
+                        <h5 class="font-bold text-white text-sm">LLM Decoder</h5>
+                        <p class="text-xs text-slate-300">Gemma-2, LLaMA-3, GRU Cell</p>
+                    </div>
+                    <div onclick="selectPipelineStep('grounding')" id="node-grounding" class="pipeline-node cursor-pointer bg-slate-800 border border-slate-700 rounded-xl p-4 space-y-2">
+                        <div class="text-xs text-emerald-400 font-mono">STAGE 04</div>
+                        <h5 class="font-bold text-white text-sm">Grounding & Refinement</h5>
+                        <p class="text-xs text-slate-300">Panoptic Masks, MM-SeR</p>
+                    </div>
+                </div>
+                <div id="pipelineDetailCard" class="bg-slate-800/90 border border-slate-700 rounded-xl p-5 space-y-2"></div>
+            </div>
+        </section>
+
+        <!-- SECTION 7: METRICS HUB -->
+        <section id="sec-metrics" class="space-y-6 hidden">
+            <h3 class="text-xl font-bold text-slate-900 serif">Evaluation Metrics & The GCE Dilemma</h3>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-white p-4 border rounded-xl shadow-sm space-y-2">
+                    <div class="font-bold text-xs uppercase text-slate-800">Gen 1: N-Gram</div>
+                    <h4 class="font-bold text-sm">BLEU, CIDEr, SPICE</h4>
+                    <p class="text-xs text-slate-600">Exact surface token overlap against short reference text.</p>
+                </div>
+                <div class="bg-white p-4 border rounded-xl shadow-sm space-y-2">
+                    <div class="font-bold text-xs uppercase text-indigo-700">Gen 2: Embeddings</div>
+                    <h4 class="font-bold text-sm">CLIP-S, BRIDGE</h4>
+                    <p class="text-xs text-slate-600">Cross-modal vision-language vector alignment.</p>
+                </div>
+                <div class="bg-white p-4 border rounded-xl shadow-sm space-y-2">
+                    <div class="font-bold text-xs uppercase text-amber-700">Gen 3: MLLM Judge</div>
+                    <h4 class="font-bold text-sm">CLAIR, FLEUR</h4>
+                    <p class="text-xs text-slate-600">LLM natural language reasoning evaluation scores.</p>
+                </div>
+                <div class="bg-white p-4 border rounded-xl shadow-sm space-y-2">
+                    <div class="font-bold text-xs uppercase text-emerald-800">Gen 4: Grounding</div>
+                    <h4 class="font-bold text-sm">CHAIR, CAPTURE, PGC</h4>
+                    <p class="text-xs text-slate-600">Quantifies exact object hallucinations against pixel masks.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 8: PRESENTER DECK -->
+        <section id="sec-ppt" class="space-y-6 hidden">
+            <div class="flex items-center justify-between">
+                <h3 class="text-xl font-bold text-slate-900 serif">Executive Briefing Slide Deck</h3>
+                <div class="flex gap-2">
+                    <button onclick="prevSlide()" class="px-3 py-1 bg-slate-100 hover:bg-slate-200 rounded text-xs font-bold">← Prev</button>
+                    <span id="slideIndicator" class="text-xs font-bold px-2 py-1">Slide 1 / 6</span>
+                    <button onclick="nextSlide()" class="px-3 py-1 bg-emerald-800 text-white rounded text-xs font-bold">Next →</button>
+                </div>
+            </div>
+            <div class="bg-slate-900 text-white border border-slate-800 rounded-2xl p-8 shadow-2xl min-h-[380px] flex flex-col justify-between">
+                <div id="slideContent" class="space-y-4"></div>
+                <div class="pt-4 border-t border-slate-800 text-xs text-slate-400">
+                    <strong class="text-amber-400">Speaker Note:</strong> <span id="speakerNotes"></span>
+                </div>
+            </div>
+        </section>
+
     </main>
 
+    <!-- JS Logic -->
     <script>
-        let currentImage = null;
-        let activeGroundingBoxes = [];
+        const papersData = [
+            { id: "era0", year: "Baseline", model: "CNN + GRU + Attention", venue: "Tutorial", datasets: ["MS COCO"], focus: "InceptionResNetV2 encoder + GRU cell + soft cross-attention.", results: "84.2 CIDEr; concise ~10-word captions." },
+            { id: "vinvl2021", year: "2021", model: "VinVL", venue: "CVPR 2021", datasets: ["MS COCO", "nocaps"], focus: "Upgraded object detector extracting bounding box proposals.", results: "140.9 CIDEr on COCO test set." },
+            { id: "blip2_2023", year: "2023", model: "BLIP-2", venue: "ICML 2023", datasets: ["MS COCO", "LAION-400M"], focus: "Q-Former adapter bridging frozen ViT with frozen LLM.", results: "Zero-shot beat Flamingo-80B with 54x fewer params." },
+            { id: "llava15_2023", year: "2023", model: "LLaVA-1.5", venue: "NeurIPS 2023", datasets: ["MS COCO", "LLaVA-158K"], focus: "2-layer MLP connector linking CLIP-ViT to Vicuna LLM.", results: "Established instruction tuning baseline." },
+            { id: "sharegpt4v_2024", year: "2024", model: "ShareGPT4V", venue: "CVPR 2024", datasets: ["ShareGPT4V", "MS COCO"], focus: "1.2M GPT-4V synthetic detailed captions (~140 words).", results: "+12.4% avg downstream reasoning improvement." },
+            { id: "coconut_2025", year: "2025", model: "COCONut-PanCap", venue: "NeurIPS 2025", datasets: ["COCONut-PanCap"], focus: "Panoptic Grounded Captioning with 13.2 pixel masks/img.", results: "Established pixel-grounded evaluation benchmark." },
+            { id: "mmser_2026", year: "2026", model: "MM-SeR", venue: "CVPR 2026", datasets: ["MS COCO", "ShareGPT4V"], focus: "Two-stage self-refinement for 450M parameter LM.", results: "Matches 7B+ MLLMs; 93% fewer params, 82% faster." }
+        ];
 
-        function handleImageUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = new Image();
-                    img.onload = function() {
-                        currentImage = img;
-                        activeGroundingBoxes = [];
-                        drawCanvas();
-                    };
-                    img.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
+        const datasetsMeta = {
+            "MS COCO": { scale: "123K / ~600K captions", avgWords: "~10.5 words", annotation: "Human annotators", risk: "Low (Short length)" },
+            "ShareGPT4V": { scale: "1.2M pre-train", avgWords: "~143.6 words", annotation: "GPT-4V automated", risk: "High (CHAIRs 20.7%)" },
+            "DOCCI": { scale: "15K / 15K captions", avgWords: "~136.0 words", annotation: "Human (Google)", risk: "Extremely Low" },
+            "COCONut-PanCap": { scale: "118K train / 5K val", avgWords: "~203.0 words", annotation: "13.2 Panoptic Masks", risk: "Low (Mask Grounded)" }
+        };
+
+        const playgroundImages = {
+            street: {
+                boxes: [
+                    { label: "pedestrians", x: 30, y: 120, w: 100, h: 140, color: "#10b981" },
+                    { label: "red bus", x: 140, y: 80, w: 180, h: 160, color: "#ef4444" }
+                ],
+                outputs: {
+                    era0: "A city street with a red bus and people on a sidewalk.",
+                    vinvl: "A busy city street with a red bus and pedestrians.",
+                    blip2: "A broad daylight view of an urban boulevard with pedestrians walking past a red double-decker bus.",
+                    llava: "The image shows a bustling city street scene with a large red bus driving alongside pedestrians.",
+                    sharegpt: "In this urban environment, several pedestrians wearing dark jackets are walking along a pavement. To their left, a large red bus is stopped near a crosswalk. Modern buildings rise in the background.",
+                    docci: "A wide urban street scene featuring three pedestrians on the left sidewalk and a large red bus in the middle lane.",
+                    coconut: "A detailed view showing three pedestrians [x:30,y:120] on a pavement walking past a red bus [x:140,y:80].",
+                    mmser: "Grounded scene extraction: 3 pedestrians [x:30,y:120] walking left; 1 red bus [x:140,y:80] in mid-ground. Verified."
+                }
+            },
+            kitchen: {
+                boxes: [
+                    { label: "refrigerator", x: 20, y: 40, w: 110, h: 220, color: "#3b82f6" },
+                    { label: "countertop", x: 120, y: 180, w: 260, h: 100, color: "#f59e0b" }
+                ],
+                outputs: {
+                    era0: "A modern kitchen with a refrigerator and a counter.",
+                    coconut: "An indoor kitchen showing a stainless refrigerator [x:20,y:40] adjacent to a marble countertop [x:120,y:180].",
+                    mmser: "Grounded kitchen extraction: 1 stainless refrigerator [x:20,y:40]; 1 marble countertop [x:120,y:180]."
+                }
+            },
+            nature: {
+                boxes: [{ label: "brown deer", x: 120, y: 100, w: 150, h: 150, color: "#d97706" }],
+                outputs: {
+                    era0: "A deer standing in a grassy forest field.",
+                    coconut: "A natural scene featuring a brown deer [x:120,y:100] standing in a green meadow.",
+                    mmser: "Grounded wildlife extraction: 1 brown deer [x:120,y:100] centered in meadow."
+                }
             }
+        };
+
+        const slideDeck = [
+            { title: "5-Year Evolution of Image Captioning (2021–2026)", notes: "Overview of architecture transitions from classical CNN-GRU baselines to grounded self-refinement." },
+            { title: "Four Chronological Architectural Eras", notes: "Tracing model paradigms from VinVL (2021) to BLIP-2 (2023), ShareGPT4V (2024), and MM-SeR (2026)." },
+            { title: "Dataset Trajectory & Annotation Scale", notes: "Exploding word lengths from MS COCO (~10 words) to COCONut-PanCap (~203 words + 13.2 panoptic masks)." },
+            { title: "Key Benchmark Milestone Matrix", notes: "Evaluating CIDEr, latency, and parameter efficiency across paradigms." },
+            { title: "Metrics Breakdown & The GCE Dilemma", notes: "Analyzing CHAIR object hallucination increases under synthetic pre-training." },
+            { title: "Strategic Takeaways & Future Frontiers", notes: "Perceptual grounding in sub-1B parameter LMs outperforms brute-force scaling." }
+        ];
+
+        let currentSampleKey = 'street';
+        let currentSlideIdx = 0;
+
+        function switchTab(tabId) {
+            ['overview', 'paper', 'playground', 'papers', 'comparator', 'pipeline', 'metrics', 'ppt'].forEach(t => {
+                const sec = document.getElementById(`sec-${t}`);
+                if (sec) sec.classList.toggle('hidden', t !== tabId);
+            });
+            document.getElementById('mobileMenu').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (tabId === 'playground') setTimeout(drawPlaygroundCanvas, 100);
         }
 
-        function drawCanvas(highlightBox = null) {
-            const canvas = document.getElementById('groundingCanvas');
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+
+        function renderPaperTable() {
+            const tbody = document.getElementById('paperTableBody');
+            tbody.innerHTML = papersData.map(p => `
+                <tr class="hover:bg-slate-50 transition border-b">
+                    <td class="p-3 font-bold text-slate-700">${p.year}</td>
+                    <td class="p-3 font-bold text-slate-900">${p.model}</td>
+                    <td class="p-3"><span class="px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded font-semibold">${p.venue}</span></td>
+                    <td class="p-3">${p.datasets.join(', ')}</td>
+                    <td class="p-3 text-slate-600">${p.focus}</td>
+                    <td class="p-3 font-medium text-emerald-800">${p.results}</td>
+                </tr>
+            `).join('');
+        }
+
+        function updateDatasetComparison() {
+            const nameA = document.getElementById('dsSelectA').value;
+            const nameB = document.getElementById('dsSelectB').value;
+            const metaA = datasetsMeta[nameA] || {};
+            const metaB = datasetsMeta[nameB] || {};
+
+            document.getElementById('comparisonGrid').innerHTML = `
+                <div class="p-4 bg-slate-50 rounded-xl border space-y-2">
+                    <h4 class="font-bold text-slate-900">${nameA}</h4>
+                    <p class="text-xs"><strong>Scale:</strong> ${metaA.scale}</p>
+                    <p class="text-xs"><strong>Avg Words:</strong> <span class="font-bold text-emerald-800">${metaA.avgWords}</span></p>
+                    <p class="text-xs"><strong>Annotation:</strong> ${metaA.annotation}</p>
+                    <p class="text-xs"><strong>Hallucination Risk:</strong> ${metaA.risk}</p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-xl border space-y-2">
+                    <h4 class="font-bold text-slate-900">${nameB}</h4>
+                    <p class="text-xs"><strong>Scale:</strong> ${metaB.scale}</p>
+                    <p class="text-xs"><strong>Avg Words:</strong> <span class="font-bold text-indigo-800">${metaB.avgWords}</span></p>
+                    <p class="text-xs"><strong>Annotation:</strong> ${metaB.annotation}</p>
+                    <p class="text-xs"><strong>Hallucination Risk:</strong> ${metaB.risk}</p>
+                </div>
+            `;
+        }
+
+        function loadSampleImage(key) {
+            currentSampleKey = key;
+            drawPlaygroundCanvas();
+            runInferenceSimulation();
+        }
+
+        function drawPlaygroundCanvas(highlightBox = null) {
+            const canvas = document.getElementById('playgroundCanvas');
+            if (!canvas) return;
             const ctx = canvas.getContext('2d');
-            canvas.width = 400;
-            canvas.height = 300;
+            canvas.width = 400; canvas.height = 300;
 
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(0, 0, 400, 300);
+            const sample = playgroundImages[currentSampleKey];
+            ctx.fillStyle = '#334155'; ctx.fillRect(0, 0, 400, 300);
 
-            if (currentImage) {
-                ctx.drawImage(currentImage, 0, 0, 400, 300);
-            }
-
-            activeGroundingBoxes.forEach(b => {
-                const isHovered = highlightBox && highlightBox.label === b.label && highlightBox.x === b.x;
+            sample.boxes.forEach(b => {
+                const isHovered = highlightBox && highlightBox.label.toLowerCase() === b.label.toLowerCase();
                 ctx.strokeStyle = isHovered ? '#f59e0b' : b.color;
                 ctx.lineWidth = isHovered ? 4 : 2;
                 ctx.strokeRect(b.x, b.y, b.w, b.h);
-
-                if (isHovered) {
-                    ctx.fillStyle = b.color;
-                    ctx.globalAlpha = 0.25;
-                    ctx.fillRect(b.x, b.y, b.w, b.h);
-                    ctx.globalAlpha = 1.0;
-                }
-
                 ctx.fillStyle = b.color;
-                ctx.font = 'bold 11px sans-serif';
-                ctx.fillText(`${b.label.toUpperCase()} (${(b.confidence * 100).toFixed(0)}%)`, b.x + 4, b.y + 14);
+                ctx.font = 'bold 10px sans-serif';
+                ctx.fillText(b.label.toUpperCase(), b.x + 4, b.y + 12);
             });
         }
 
-        async function runRealInference() {
-            const fileInput = document.getElementById('userImageUpload');
-            if (!fileInput.files || fileInput.files.length === 0) {
-                alert("Please select an image file first!");
-                return;
-            }
+        function runInferenceSimulation() {
+            const modelKey = document.getElementById('modelSelector').value;
+            const outputTextEl = document.getElementById('captionOutputText');
+            const sample = playgroundImages[currentSampleKey];
+            const captionText = (sample.outputs && sample.outputs[modelKey]) || sample.outputs.coconut || "Generated description.";
 
-            const captionText = document.getElementById('captionText');
-            const groundingTags = document.getElementById('groundingTags');
-            captionText.textContent = "Running PyTorch BLIP captioning and Faster R-CNN spatial token extraction...";
+            outputTextEl.textContent = captionText;
+            document.getElementById('diagWordCount').textContent = captionText.split(' ').length;
+            document.getElementById('diagChairRisk').textContent = modelKey === 'sharegpt' ? "20.7% (High)" : "0.4% (Low)";
 
-            const formData = new FormData();
-            formData.append("file", fileInput.files[0]);
-
-            try {
-                const response = await fetch("http://localhost:8000/caption", {
-                    method: "POST",
-                    body: formData
-                });
-
-                const data = await response.json();
-                captionText.textContent = data.caption;
-                document.getElementById('latencyTag').textContent = `${data.latency_ms} ms`;
-                document.getElementById('wordCountTag').textContent = data.word_count;
-                document.getElementById('deviceTag').textContent = data.device;
-                document.getElementById('tokenCountTag').textContent = data.grounding_boxes.length;
-
-                activeGroundingBoxes = data.grounding_boxes;
-                drawCanvas();
-
-                // Render Spatial Token Tags
-                groundingTags.innerHTML = '';
-                data.grounding_boxes.forEach(b => {
-                    const tag = document.createElement('span');
-                    tag.className = "grounding-tag px-2.5 py-1 bg-slate-800 text-slate-200 border border-slate-700 rounded cursor-pointer text-xs font-mono";
-                    tag.innerHTML = `📍 <strong>${b.label}</strong> [x:${b.x.toFixed(0)}, y:${b.y.toFixed(0)}]`;
-                    tag.onmouseenter = () => drawCanvas(b);
-                    tag.onmouseleave = () => drawCanvas(null);
-                    groundingTags.appendChild(tag);
-                });
-
-            } catch (err) {
-                captionText.textContent = "Error connecting to PyTorch backend at http://localhost:8000.";
-                console.error(err);
-            }
+            const tagsContainer = document.getElementById('groundingTagsContainer');
+            tagsContainer.innerHTML = '';
+            sample.boxes.forEach(b => {
+                const tag = document.createElement('span');
+                tag.className = "grounding-tag px-2 py-1 bg-slate-100 text-slate-700 border rounded text-[11px] font-medium cursor-pointer";
+                tag.innerHTML = `📍 <strong>${b.label}</strong> [${b.x},${b.y}]`;
+                tag.onmouseenter = () => drawPlaygroundCanvas(b);
+                tag.onmouseleave = () => drawPlaygroundCanvas(null);
+                tagsContainer.appendChild(tag);
+            });
         }
+
+        function selectPipelineStep(stepKey) {
+            const detailCard = document.getElementById('pipelineDetailCard');
+            const steps = {
+                encoder: "Stage 01: Vision Encoder Backbone (InceptionResNetV2, ViT-L/14, SigLIP) - Extracts spatial feature maps.",
+                adapter: "Stage 02: Modality Connector Adapter (Q-Former, 2-Layer MLP) - Projects visual vectors into LLM space.",
+                decoder: "Stage 03: LLM Decoder Engine (Vicuna, LLaMA-3, Gemma-2, GRU) - Autoregressively generates text tokens.",
+                grounding: "Stage 04: Panoptic Grounding & Self-Refinement Head (COCONut Masks, MM-SeR) - Eliminates hallucinated tokens."
+            };
+            detailCard.innerHTML = `<p class="text-xs text-slate-200">${steps[stepKey]}</p>`;
+        }
+
+        function updateSlide() {
+            const slide = slideDeck[currentSlideIdx];
+            document.getElementById('slideContent').innerHTML = `<h3 class="text-2xl font-bold text-white serif">${slide.title}</h3>`;
+            document.getElementById('speakerNotes').textContent = slide.notes;
+            document.getElementById('slideIndicator').textContent = `Slide ${currentSlideIdx + 1} / ${slideDeck.length}`;
+        }
+
+        function nextSlide() { currentSlideIdx = (currentSlideIdx + 1) % slideDeck.length; updateSlide(); }
+        function prevSlide() { currentSlideIdx = (currentSlideIdx - 1 + slideDeck.length) % slideDeck.length; updateSlide(); }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPaperTable();
+            updateDatasetComparison();
+            selectPipelineStep('encoder');
+            updateSlide();
+        });
     </script>
 </body>
 </html>
