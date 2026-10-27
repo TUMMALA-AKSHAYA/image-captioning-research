@@ -15,7 +15,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy source code files
-COPY app.py model_pipeline.py ./
+COPY app.py model_pipeline.py database.py ./
 
 # Expose FastAPI default port
 EXPOSE 8000

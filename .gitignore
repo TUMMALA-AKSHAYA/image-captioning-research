@@ -1,4 +1,3 @@
-cat << 'EOF' > .gitignore
 # Python
 __pycache__/
 *.py[cod]
@@ -20,4 +19,5 @@ huggingface/
 .DS_Store
 .vscode/
 .idea/
-EOF
+.pytest_cache/
+.coverage

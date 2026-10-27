@@ -1,5 +1,7 @@
+import argparse
+import json
 import os
-import io
+from pathlib import Path
 import torch
 from torch.utils.data import Dataset, DataLoader
 from PIL import Image
@@ -32,10 +34,19 @@ class DenseCaptionDataset(Dataset):
         )
         return {k: v.squeeze(0) for k, v in encoding.items()}
 
-def train_lora_adapter(samples: list, epochs: int = 2, batch_size: int = 2, lr: float = 5e-5):
+def train_lora_adapter(
+    samples: list,
+    epochs: int = 2,
+    batch_size: int = 2,
+    lr: float = 5e-5,
+    output_dir: str = "./fine_tuned_blip_lora",
+):
     """
     Executes Parameter-Efficient Fine-Tuning (LoRA) on BLIP's text decoder.
     """
+    if not samples:
+        raise ValueError("At least one real image-caption training sample is required.")
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Initializing LoRA Fine-Tuning pipeline on device: {device}")
 
@@ -61,13 +72,6 @@ def train_lora_adapter(samples: list, epochs: int = 2, batch_size: int = 2, lr: 
     
     model = get_peft_model(base_model, lora_config).to(device)
     model.print_trainable_parameters()
-
-    # Generate verification dummy sample if none provided
-    if not samples:
-        print("No training samples provided. Generating verification dummy sample...")
-        dummy_img_path = "temp_test_image.jpg"
-        Image.new("RGB", (224, 224), color="blue").save(dummy_img_path)
-        samples = [{"image_path": dummy_img_path, "caption": "a blue test image for verification"}]
 
     dataset = DenseCaptionDataset(samples, processor)
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
@@ -95,10 +99,48 @@ def train_lora_adapter(samples: list, epochs: int = 2, batch_size: int = 2, lr: 
         avg_loss = total_loss / max(1, len(dataloader))
         print(f"Epoch [{epoch+1}/{epochs}] - Training Loss: {avg_loss:.4f}")
 
-    output_dir = "./fine_tuned_blip_lora"
     os.makedirs(output_dir, exist_ok=True)
     model.save_pretrained(output_dir)
     print(f"LoRA adapter weights successfully saved to '{output_dir}'.")
 
 if __name__ == "__main__":
-    train_lora_adapter(samples=[])
+    parser = argparse.ArgumentParser(description="Fine-tune BLIP with LoRA from a JSON/JSONL manifest.")
+    parser.add_argument("manifest", help="JSON list or JSONL file with image_path and caption fields")
+    parser.add_argument("--epochs", type=int, default=2)
+    parser.add_argument("--batch-size", type=int, default=2)
+    parser.add_argument("--learning-rate", type=float, default=5e-5)
+    parser.add_argument("--output-dir", default="./fine_tuned_blip_lora")
+    args = parser.parse_args()
+
+    manifest_path = Path(args.manifest).resolve()
+    if manifest_path.suffix.lower() == ".jsonl":
+        with manifest_path.open(encoding="utf-8") as manifest_file:
+            samples = [json.loads(line) for line in manifest_file if line.strip()]
+    else:
+        with manifest_path.open(encoding="utf-8") as manifest_file:
+            samples = json.load(manifest_file)
+    if not isinstance(samples, list):
+        parser.error("The JSON manifest root must be a list of samples.")
+    if not samples:
+        parser.error("The training manifest must contain at least one sample.")
+
+    for sample in samples:
+        if not isinstance(sample, dict) or not isinstance(sample.get("caption"), str):
+            parser.error("Each sample must be an object with a string 'caption'.")
+        image_path = sample.get("image_path")
+        if not isinstance(image_path, str) or not image_path:
+            parser.error("Each sample must have a non-empty 'image_path'.")
+        resolved_image = Path(image_path)
+        if not resolved_image.is_absolute():
+            resolved_image = manifest_path.parent / resolved_image
+        if not resolved_image.is_file():
+            parser.error(f"Training image does not exist: {resolved_image}")
+        sample["image_path"] = str(resolved_image)
+
+    train_lora_adapter(
+        samples=samples,
+        epochs=args.epochs,
+        batch_size=args.batch_size,
+        lr=args.learning_rate,
+        output_dir=args.output_dir,
+    )

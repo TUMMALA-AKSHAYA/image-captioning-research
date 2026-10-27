@@ -72,5 +72,5 @@ class CaptionMetricsEvaluator:
                 "METEOR": "requires_nltk_wordnet",
                 "CLIPScore": "optional_separate_module"
             },
-            "status": "success"
+            "status": "success" if bleu_score is not None or rouge_score is not None else "partial"
         }

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Captioning Research Intelligence (2021–2026)</title>
+    <meta name="captionlens-api-base" content="http://localhost:8000">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
@@ -98,7 +99,7 @@
                 <button onclick="switchTab('comparator')" id="tab-comparator" class="tab-btn px-2.5 py-2 transition">Datasets</button>
                 <button onclick="switchTab('pipeline')" id="tab-pipeline" class="tab-btn px-2.5 py-2 transition">Architecture</button>
                 <button onclick="switchTab('metrics')" id="tab-metrics" class="tab-btn px-2.5 py-2 transition">Metrics & GCE</button>
-                <button onclick="switchTab('ppt')" id="tab-ppt" class="bg-emerald-800 text-white hover:bg-emerald-900 px-3 py-1.5 rounded-md transition shadow-sm flex items-center gap-1 ml-1">
+                <button onclick="switchTab('ppt')" id="tab-ppt" class="tab-btn bg-emerald-800 text-white hover:bg-emerald-900 px-3 py-1.5 rounded-md transition shadow-sm flex items-center gap-1 ml-1">
                     <span>📺</span> Presenter
                 </button>
             </nav>
@@ -106,7 +107,7 @@
             <!-- Mobile Menu Switch -->
             <div class="lg:hidden flex items-center gap-2">
                 <button onclick="switchTab('playground')" class="bg-emerald-800 text-white px-2 py-1 rounded text-xs font-bold">⚡ Live Studio</button>
-                <button onclick="toggleMobileMenu()" class="p-1.5 text-slate-600 hover:text-slate-900 focus:outline-none">
+                <button id="mobileMenuToggle" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle navigation menu" onclick="toggleMobileMenu()" class="p-1.5 text-slate-600 hover:text-slate-900 focus:outline-none">
                     <span class="text-lg">☰</span>
                 </button>
             </div>
@@ -140,25 +141,25 @@
                         Evolution of Image Captioning Paradigms & Datasets
                     </h2>
                     <p class="text-sm text-slate-600 leading-relaxed">
-                        Image captioning has shifted from concise 10-word summaries (MS COCO) to dense 200-word grounded narratives (COCONut-PanCap). This intelligence platform maps literature, datasets, evaluation paradigms, interactive pipelines, and live model testing.
+                        This project combines a literature survey with a local image-captioning prototype. The live application uses BLIP for captions and Faster R-CNN for object detection; it does not compare historical models or calculate grounding quality.
                     </p>
 
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-slate-100 text-center">
                         <div class="p-3 bg-slate-50 rounded-lg">
-                            <div class="text-2xl font-bold text-emerald-800">16</div>
-                            <div class="text-xs text-slate-500">Core Papers Mapped</div>
+                            <div class="text-2xl font-bold text-emerald-800">6</div>
+                            <div class="text-xs text-slate-500">Illustrative Literature Entries</div>
                         </div>
                         <div class="p-3 bg-slate-50 rounded-lg">
-                            <div class="text-2xl font-bold text-slate-800">7 Core</div>
-                            <div class="text-xs text-slate-500">Datasets Analyzed</div>
+                            <div class="text-2xl font-bold text-slate-800">4</div>
+                            <div class="text-xs text-slate-500">Dataset Profiles in This Page</div>
                         </div>
                         <div class="p-3 bg-slate-50 rounded-lg">
-                            <div class="text-2xl font-bold text-indigo-700">~10.5 → 203</div>
-                            <div class="text-xs text-slate-500">Avg Caption Word Expansion</div>
+                            <div class="text-2xl font-bold text-indigo-700">1</div>
+                            <div class="text-xs text-slate-500">Caption Model Connected to the API</div>
                         </div>
                         <div class="p-3 bg-slate-50 rounded-lg">
-                            <div class="text-2xl font-bold text-amber-700">5 Eras</div>
-                            <div class="text-xs text-slate-500">Architectural Epochs</div>
+                            <div class="text-2xl font-bold text-amber-700">0</div>
+                            <div class="text-xs text-slate-500">CaptionLens Benchmark Runs Recorded</div>
                         </div>
                     </div>
 
@@ -200,7 +201,7 @@
                     <div class="bg-white border-l-4 border-emerald-600 border-y border-r border-slate-200 rounded-r-xl p-4 shadow-sm space-y-2">
                         <span class="text-[10px] font-bold text-emerald-700 uppercase">Era 4: 2025–2026</span>
                         <h4 class="font-bold text-slate-900 text-xs">Grounded Self-Refinement</h4>
-                        <p class="text-[11px] text-slate-600">COCONut panoptic mask tokens & MM-SeR 450M two-stage visual re-inspection loops.</p>
+                        <p class="text-[11px] text-slate-600">Recent work explores detailed captions, visual grounding, and iterative refinement.</p>
                     </div>
                 </div>
             </div>
@@ -220,7 +221,7 @@
                 <div class="prose prose-slate max-w-none text-xs sm:text-sm leading-relaxed space-y-4">
                     <h3 class="text-base font-bold text-slate-900 serif border-b pb-1">1. Abstract</h3>
                     <p class="text-slate-700">
-                        Image captioning has undergone a foundational transformation over the past five years. This paper bridges classical recurrent architectures (CNN encoders paired with GRU decoders and soft attention) with modern Multimodal Large Language Models (MLLMs) developed between 2021 and 2026. We formalize technical progression across four paradigms: Regional Transformers, Adapter-Bridged MLLMs, Dense Enriched Generative Models, and Grounded Self-Refinement Systems. Finally, we demonstrate that lightweight self-refinement models (MM-SeR 450M) match 7B+ generalist MLLM caption quality while operating at 93% fewer parameters and 82% reduced inference latency.
+                        This page is a literature overview and software prototype, not a report of new CaptionLens experiments. The repository contains a pretrained BLIP captioner, a pretrained object detector, and evaluation utilities. No controlled comparison between historical architectures or new benchmark result is claimed here.
                     </p>
 
                     <h3 class="text-base font-bold text-slate-900 serif border-b pb-1">2. Technical Formalization of the Classical Baseline</h3>
@@ -245,7 +246,7 @@
 
                     <h3 class="text-base font-bold text-slate-900 serif border-b pb-1">3. The Generative Caption Enrichment (GCE) Dilemma</h3>
                     <p class="text-slate-700">
-                        While synthetic long-form pre-training (ShareGPT4V) improves downstream multi-modal reasoning, CHAIR evaluation proves that object hallucinations increase from 0.0% (COCO) to 20.7% (ShareGPT4V). When visual features are ambiguous, autoregressive language decoders rely on strong statistical word co-occurrence priors (e.g., predicting *"table"* whenever *"coffee mug"* is present). Consequently, fine-tuning on grounded human-verified corpora (DOCCI, COCONut-PanCap) is required to enforce factual consistency.
+                        Caption detail and factual support are separate properties and should be measured separately. This repository does not reproduce a comparison of synthetic and human-annotated training data, and its current object-list evaluator is only CHAIR-inspired. Any claim about hallucination rates or the effect of fine-tuning requires a defined dataset, annotations, and reproducible runs.
                     </p>
                 </div>
             </div>
@@ -257,58 +258,27 @@
                 <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-800">
                     <span>⚡</span> Live Testing Studio & Vision Lab
                 </div>
-                <h3 class="text-xl font-bold text-slate-900 serif">Live Image Captioning & Visual Grounding Testbed</h3>
-                <p class="text-xs text-slate-600 mt-1">
-                    Test image captioning algorithms live across all architectural eras—including the classical Era 0 CNN-GRU baseline. Upload images, run inference simulations, and inspect visual grounding box overlays.
-                </p>
+                <h3 class="text-xl font-bold text-slate-900 serif">Live BLIP Captioning & Object Detection</h3>
+                <p class="text-xs text-slate-600 mt-1">The API runs BLIP caption generation and Faster R-CNN object detection. Detected boxes are not aligned to caption phrases, and hallucination scores are not calculated here.</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 <!-- Controls & Canvas -->
                 <div class="lg:col-span-5 space-y-4">
                     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3">
-                        <label class="block text-xs font-bold text-slate-800">1. Select or Upload Image</label>
-                        <div class="grid grid-cols-3 gap-2">
-                            <button onclick="loadSampleImage('street')" id="preset-street" class="preset-btn p-1.5 border-2 border-emerald-600 rounded-lg bg-emerald-50/50 text-left transition">
-                                <div class="text-[11px] font-bold text-slate-800">Urban Street</div>
-                                <div class="text-[9px] text-slate-500">Multi-object</div>
-                            </button>
-                            <button onclick="loadSampleImage('kitchen')" id="preset-kitchen" class="preset-btn p-1.5 border border-slate-200 rounded-lg text-left hover:bg-slate-50 transition">
-                                <div class="text-[11px] font-bold text-slate-800">Kitchen Scene</div>
-                                <div class="text-[9px] text-slate-500">Attributes</div>
-                            </button>
-                            <button onclick="loadSampleImage('nature')" id="preset-nature" class="preset-btn p-1.5 border border-slate-200 rounded-lg text-left hover:bg-slate-50 transition">
-                                <div class="text-[11px] font-bold text-slate-800">Wildlife Park</div>
-                                <div class="text-[9px] text-slate-500">Fine detail</div>
-                            </button>
-                        </div>
-
-                        <div class="border-2 border-dashed border-slate-300 rounded-lg p-3 text-center bg-slate-50 hover:bg-slate-100 transition relative">
-                            <input type="file" id="userImageUpload" accept="image/*" onchange="handleUserImageUpload(event)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
-                            <div class="text-xs text-slate-600 font-medium">📁 Upload Custom Image</div>
-                        </div>
-
+                        <label for="userImageUpload" class="block text-xs font-bold text-slate-800">Select an image (JPEG, PNG, or WebP; up to 10 MB)</label>
+                        <input type="file" id="userImageUpload" accept="image/jpeg,image/png,image/webp" aria-describedby="uploadHelp" class="block w-full text-xs">
+                        <p id="uploadHelp" class="text-[11px] text-slate-500">The image is sent to the local CaptionLens API for processing.</p>
                         <div class="relative bg-slate-900 rounded-lg overflow-hidden flex items-center justify-center min-h-[260px]">
-                            <canvas id="playgroundCanvas" class="max-w-full max-h-[300px] object-contain"></canvas>
+                            <canvas id="playgroundCanvas" role="img" aria-label="Selected image preview with detected object boxes" class="max-w-full max-h-[300px] object-contain"></canvas>
                         </div>
+                        <div class="flex gap-2">
+                            <button id="runCaptionBtn" type="button" onclick="runCaptionInference()" class="flex-1 py-2 bg-emerald-800 hover:bg-emerald-900 text-white font-bold rounded-lg text-xs shadow transition">Run Caption + Detection</button>
+                            <button id="clearImageBtn" type="button" onclick="clearSelectedImage()" class="px-3 py-2 border border-slate-300 rounded-lg text-xs font-semibold">Clear image</button>
+                        </div>
+                        <p id="apiStatus" role="status" aria-live="polite" class="text-xs text-slate-600">Checking local API…</p>
                     </div>
 
-                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3">
-                        <label class="block text-xs font-bold text-slate-800">2. Select Model Era Architecture</label>
-                        <select id="modelSelector" onchange="runInferenceSimulation()" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-md focus:ring-2 focus:ring-emerald-500 font-medium">
-                            <option value="era0">Era 0: InceptionResNetV2 + GRU + Attention (Classical Baseline)</option>
-                            <option value="vinvl">Era 1 (2021): VinVL (Regional Transformer - Object Boxes)</option>
-                            <option value="blip2">Era 2 (2023): BLIP-2 (Q-Former + Frozen LLM)</option>
-                            <option value="llava">Era 2 (2023): LLaVA-1.5 (2-Layer MLP Adapter)</option>
-                            <option value="sharegpt">Era 3 (2024): ShareGPT4V (140-Word Synthetic Enriched)</option>
-                            <option value="docci">Era 3 (2024): DOCCI (Human Gold Contrastive Detail)</option>
-                            <option value="coconut" selected>Era 4 (2025): COCONut-PanCap (Panoptic Grounded)</option>
-                            <option value="mmser">Era 4 (2026): MM-SeR 450M (Self-Refined Lightweight)</option>
-                        </select>
-                        <button onclick="runInferenceSimulation()" class="w-full py-2 bg-emerald-800 hover:bg-emerald-900 text-white font-bold rounded-lg text-xs shadow transition">
-                            🚀 Run Caption Generation
-                        </button>
-                    </div>
                 </div>
 
                 <!-- Results Panel -->
@@ -317,23 +287,23 @@
                         <div class="flex items-center justify-between border-b pb-3">
                             <div>
                                 <span id="outputModelBadge" class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full">
-                                    COCONut-PanCap (2025)
+                                    BLIP base + Faster R-CNN
                                 </span>
                                 <h4 class="text-sm font-bold text-slate-900 mt-1">Generated Image Caption Output</h4>
                             </div>
                             <div class="text-right">
                                 <span class="text-[10px] text-slate-400 block font-mono">LATENCY</span>
-                                <span id="outputLatency" class="text-xs font-bold text-slate-700">142 ms</span>
+                                <span id="outputLatency" class="text-xs font-bold text-slate-700">—</span>
                             </div>
                         </div>
 
                         <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
-                            <p id="captionOutputText" class="text-xs sm:text-sm text-slate-800 leading-relaxed">Loading output...</p>
+                            <p id="captionOutputText" class="text-xs sm:text-sm text-slate-800 leading-relaxed" aria-live="polite">Select an image and run the local API.</p>
                         </div>
 
                         <div class="space-y-1.5">
-                            <label class="block text-[11px] font-bold text-slate-600">Hover tags to highlight spatial visual regions:</label>
-                            <div id="groundingTagsContainer" class="flex flex-wrap gap-1.5 text-xs"></div>
+                            <label class="block text-[11px] font-bold text-slate-600">Detected objects (hover to highlight; not phrase grounding):</label>
+                            <div id="groundingTagsContainer" class="flex flex-wrap gap-1.5 text-xs" aria-live="polite"></div>
                         </div>
 
                         <div class="grid grid-cols-3 gap-3 border-t pt-3 text-center">
@@ -343,11 +313,11 @@
                             </div>
                             <div class="p-2 bg-slate-50 rounded-lg">
                                 <div class="text-xs font-bold text-slate-500">CHAIR Hallucination</div>
-                                <div id="diagChairRisk" class="text-base font-bold text-emerald-700">0.0%</div>
+                                <div id="diagChairRisk" class="text-base font-bold text-slate-700">Not evaluated</div>
                             </div>
                             <div class="p-2 bg-slate-50 rounded-lg">
                                 <div class="text-xs font-bold text-slate-500">Factual Grounding</div>
-                                <div id="diagGroundingScore" class="text-base font-bold text-indigo-700">98%</div>
+                                <div id="diagGroundingScore" class="text-base font-bold text-indigo-700">Detection only</div>
                             </div>
                         </div>
                     </div>
@@ -360,18 +330,21 @@
             <h3 class="text-xl font-bold text-slate-900 serif">Literature Survey Matrix (2021–2026)</h3>
             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-                    <input type="text" id="searchInput" placeholder="Search keywords..." class="px-3 py-1.5 text-xs border border-slate-300 rounded-md">
-                    <select id="yearFilter" class="px-3 py-1.5 text-xs border border-slate-300 rounded-md">
+                    <input type="search" id="searchInput" aria-label="Search papers" placeholder="Search papers..." class="px-3 py-1.5 text-xs border border-slate-300 rounded-md">
+                    <select id="yearFilter" aria-label="Filter papers by year" class="px-3 py-1.5 text-xs border border-slate-300 rounded-md">
                         <option value="ALL">All Years</option>
+                        <option value="Baseline">Baseline</option>
                         <option value="2021">2021</option>
                         <option value="2023">2023</option>
                         <option value="2024">2024</option>
                         <option value="2025">2025</option>
                         <option value="2026">2026</option>
                     </select>
-                    <select id="datasetFilter" class="px-3 py-1.5 text-xs border border-slate-300 rounded-md">
+                    <select id="datasetFilter" aria-label="Filter papers by dataset" class="px-3 py-1.5 text-xs border border-slate-300 rounded-md">
                         <option value="ALL">All Datasets</option>
                         <option value="MS COCO">MS COCO</option>
+                        <option value="NoCaps">NoCaps</option>
+                        <option value="LLaVA instruction data">LLaVA instruction data</option>
                         <option value="ShareGPT4V">ShareGPT4V</option>
                         <option value="DOCCI">DOCCI</option>
                         <option value="COCONut-PanCap">COCONut-PanCap</option>
@@ -390,7 +363,7 @@
                                 <th class="p-3 w-24">Venue</th>
                                 <th class="p-3 w-44">Target Datasets</th>
                                 <th class="p-3">Core Methodological Focus</th>
-                                <th class="p-3 w-56">Key Results</th>
+                                <th class="p-3 w-56">Scope / Implementation Status</th>
                             </tr>
                         </thead>
                         <tbody id="paperTableBody" class="divide-y divide-slate-100"></tbody>
@@ -402,6 +375,7 @@
         <!-- SECTION 5: DATASET COMPARATOR -->
         <section id="sec-comparator" class="space-y-6 hidden">
             <h3 class="text-xl font-bold text-slate-900 serif">Dataset Comparator & Analytics</h3>
+            <p class="text-xs text-slate-600">These are qualitative literature profiles, not dataset evaluation results. CaptionLens does not download or benchmark these datasets through this page.</p>
             <div class="bg-white p-4 rounded-xl border border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1">Dataset A</label>
@@ -430,26 +404,26 @@
             <h3 class="text-xl font-bold text-slate-900 serif">Interactive 4-Stage Multimodal Architecture Pipeline</h3>
             <div class="bg-slate-900 text-white rounded-2xl p-6 shadow-xl space-y-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div onclick="selectPipelineStep('encoder')" id="node-encoder" class="pipeline-node cursor-pointer bg-slate-800 border-2 border-emerald-500 rounded-xl p-4 space-y-2">
+                    <button type="button" aria-pressed="true" onclick="selectPipelineStep('encoder')" id="node-encoder" class="pipeline-node text-left cursor-pointer bg-slate-800 border-2 border-emerald-500 rounded-xl p-4 space-y-2">
                         <div class="text-xs text-emerald-400 font-mono">STAGE 01</div>
-                        <h5 class="font-bold text-white text-sm">Vision Encoder</h5>
-                        <p class="text-xs text-slate-300">ViT-L/14, SigLIP, CLIP, CNN</p>
-                    </div>
-                    <div onclick="selectPipelineStep('adapter')" id="node-adapter" class="pipeline-node cursor-pointer bg-slate-800 border border-slate-700 rounded-xl p-4 space-y-2">
+                        <h5 class="font-bold text-white text-sm">Caption + detection</h5>
+                        <p class="text-xs text-slate-300">BLIP base + Faster R-CNN</p>
+                    </button>
+                    <button type="button" aria-pressed="false" onclick="selectPipelineStep('adapter')" id="node-adapter" class="pipeline-node text-left cursor-pointer bg-slate-800 border border-slate-700 rounded-xl p-4 space-y-2">
                         <div class="text-xs text-indigo-400 font-mono">STAGE 02</div>
                         <h5 class="font-bold text-white text-sm">Connector Adapter</h5>
-                        <p class="text-xs text-slate-300">Q-Former, 2-Layer MLP</p>
-                    </div>
-                    <div onclick="selectPipelineStep('decoder')" id="node-decoder" class="pipeline-node cursor-pointer bg-slate-800 border border-slate-700 rounded-xl p-4 space-y-2">
+                        <p class="text-xs text-slate-300">No separately trained connector in this app</p>
+                    </button>
+                    <button type="button" aria-pressed="false" onclick="selectPipelineStep('decoder')" id="node-decoder" class="pipeline-node text-left cursor-pointer bg-slate-800 border border-slate-700 rounded-xl p-4 space-y-2">
                         <div class="text-xs text-amber-400 font-mono">STAGE 03</div>
                         <h5 class="font-bold text-white text-sm">LLM Decoder</h5>
-                        <p class="text-xs text-slate-300">Gemma-2, LLaMA-3, GRU Cell</p>
-                    </div>
-                    <div onclick="selectPipelineStep('grounding')" id="node-grounding" class="pipeline-node cursor-pointer bg-slate-800 border border-slate-700 rounded-xl p-4 space-y-2">
+                        <p class="text-xs text-slate-300">BLIP generates caption tokens</p>
+                    </button>
+                    <button type="button" aria-pressed="false" onclick="selectPipelineStep('grounding')" id="node-grounding" class="pipeline-node text-left cursor-pointer bg-slate-800 border border-slate-700 rounded-xl p-4 space-y-2">
                         <div class="text-xs text-emerald-400 font-mono">STAGE 04</div>
                         <h5 class="font-bold text-white text-sm">Grounding & Refinement</h5>
-                        <p class="text-xs text-slate-300">Panoptic Masks, MM-SeR</p>
-                    </div>
+                        <p class="text-xs text-slate-300">Detector boxes only; no phrase alignment</p>
+                    </button>
                 </div>
                 <div id="pipelineDetailCard" class="bg-slate-800/90 border border-slate-700 rounded-xl p-5 space-y-2"></div>
             </div>
@@ -458,34 +432,30 @@
         <!-- SECTION 7: METRICS HUB -->
         <section id="sec-metrics" class="space-y-6 hidden">
             <h3 class="text-xl font-bold text-slate-900 serif">Evaluation Metrics & The GCE Dilemma</h3>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="bg-white p-4 border rounded-xl shadow-sm space-y-2">
-                    <div class="font-bold text-xs uppercase text-slate-800">Gen 1: N-Gram</div>
-                    <h4 class="font-bold text-sm">BLEU, CIDEr, SPICE</h4>
-                    <p class="text-xs text-slate-600">Exact surface token overlap against short reference text.</p>
+                    <div class="font-bold text-xs uppercase text-slate-800">Reference-based metrics</div>
+                    <h4 class="font-bold text-sm">BLEU-4 and ROUGE-L</h4>
+                    <p class="text-xs text-slate-600">Implemented in <code>caption_metrics.py</code> for one reference and one generated caption. NLTK and rouge-score must be installed.</p>
                 </div>
                 <div class="bg-white p-4 border rounded-xl shadow-sm space-y-2">
-                    <div class="font-bold text-xs uppercase text-indigo-700">Gen 2: Embeddings</div>
-                    <h4 class="font-bold text-sm">CLIP-S, BRIDGE</h4>
-                    <p class="text-xs text-slate-600">Cross-modal vision-language vector alignment.</p>
+                    <div class="font-bold text-xs uppercase text-amber-700">Object hallucination</div>
+                    <h4 class="font-bold text-sm">CHAIR-inspired check</h4>
+                    <p class="text-xs text-slate-600">Compares COCO-name mentions in a caption with supplied object labels. This is not validated canonical CHAIR and needs ground truth.</p>
                 </div>
                 <div class="bg-white p-4 border rounded-xl shadow-sm space-y-2">
-                    <div class="font-bold text-xs uppercase text-amber-700">Gen 3: MLLM Judge</div>
-                    <h4 class="font-bold text-sm">CLAIR, FLEUR</h4>
-                    <p class="text-xs text-slate-600">LLM natural language reasoning evaluation scores.</p>
-                </div>
-                <div class="bg-white p-4 border rounded-xl shadow-sm space-y-2">
-                    <div class="font-bold text-xs uppercase text-emerald-800">Gen 4: Grounding</div>
-                    <h4 class="font-bold text-sm">CHAIR, CAPTURE, PGC</h4>
-                    <p class="text-xs text-slate-600">Quantifies exact object hallucinations against pixel masks.</p>
+                    <div class="font-bold text-xs uppercase text-indigo-700">Not implemented here</div>
+                    <h4 class="font-bold text-sm">CIDEr, SPICE, CLIPScore, region metrics</h4>
+                    <p class="text-xs text-slate-600">No calculation or browser endpoint for these metrics is present. Detection boxes are not compared with masks or caption phrases.</p>
                 </div>
             </div>
+            <p class="text-xs text-slate-500">The live caption endpoint does not run caption metrics or CHAIR evaluation. Dataset evaluation is a Python utility described in the documentation.</p>
         </section>
 
         <!-- SECTION 8: PRESENTER DECK -->
         <section id="sec-ppt" class="space-y-6 hidden">
             <div class="flex items-center justify-between">
-                <h3 class="text-xl font-bold text-slate-900 serif">Executive Briefing Slide Deck</h3>
+                <h3 class="text-xl font-bold text-slate-900 serif">In-Page Executive Briefing</h3>
                 <div class="flex gap-2">
                     <button onclick="prevSlide()" class="px-3 py-1 bg-slate-100 hover:bg-slate-200 rounded text-xs font-bold">← Prev</button>
                     <span id="slideIndicator" class="text-xs font-bold px-2 py-1">Slide 1 / 6</span>
@@ -505,70 +475,30 @@
     <!-- JS Logic -->
     <script>
         const papersData = [
-            { id: "era0", year: "Baseline", model: "CNN + GRU + Attention", venue: "Tutorial", datasets: ["MS COCO"], focus: "InceptionResNetV2 encoder + GRU cell + soft cross-attention.", results: "84.2 CIDEr; concise ~10-word captions." },
-            { id: "vinvl2021", year: "2021", model: "VinVL", venue: "CVPR 2021", datasets: ["MS COCO", "nocaps"], focus: "Upgraded object detector extracting bounding box proposals.", results: "140.9 CIDEr on COCO test set." },
-            { id: "blip2_2023", year: "2023", model: "BLIP-2", venue: "ICML 2023", datasets: ["MS COCO", "LAION-400M"], focus: "Q-Former adapter bridging frozen ViT with frozen LLM.", results: "Zero-shot beat Flamingo-80B with 54x fewer params." },
-            { id: "llava15_2023", year: "2023", model: "LLaVA-1.5", venue: "NeurIPS 2023", datasets: ["MS COCO", "LLaVA-158K"], focus: "2-layer MLP connector linking CLIP-ViT to Vicuna LLM.", results: "Established instruction tuning baseline." },
-            { id: "sharegpt4v_2024", year: "2024", model: "ShareGPT4V", venue: "CVPR 2024", datasets: ["ShareGPT4V", "MS COCO"], focus: "1.2M GPT-4V synthetic detailed captions (~140 words).", results: "+12.4% avg downstream reasoning improvement." },
-            { id: "coconut_2025", year: "2025", model: "COCONut-PanCap", venue: "NeurIPS 2025", datasets: ["COCONut-PanCap"], focus: "Panoptic Grounded Captioning with 13.2 pixel masks/img.", results: "Established pixel-grounded evaluation benchmark." },
-            { id: "mmser_2026", year: "2026", model: "MM-SeR", venue: "CVPR 2026", datasets: ["MS COCO", "ShareGPT4V"], focus: "Two-stage self-refinement for 450M parameter LM.", results: "Matches 7B+ MLLMs; 93% fewer params, 82% faster." }
+            { id: "era0", year: "Baseline", model: "CNN + GRU + Attention", venue: "Classical", datasets: ["MS COCO"], focus: "Image encoder with recurrent text decoder and attention.", status: "Literature context only; not implemented in CaptionLens." },
+            { id: "vinvl2021", year: "2021", model: "VinVL", venue: "CVPR 2021", datasets: ["MS COCO", "NoCaps"], focus: "Uses object-region features in vision-language tasks.", status: "Literature context only; not served by this app." },
+            { id: "blip2_2023", year: "2023", model: "BLIP-2", venue: "ICML 2023", datasets: ["MS COCO"], focus: "Q-Former connects a vision encoder and a language model.", status: "Separate model; CaptionLens loads BLIP base." },
+            { id: "llava15_2023", year: "2023", model: "LLaVA-1.5", venue: "Research paper", datasets: ["LLaVA instruction data"], focus: "Vision-language instruction tuning with a connector.", status: "Literature context only; not served by this app." },
+            { id: "sharegpt4v_2024", year: "2024", model: "ShareGPT4V", venue: "Research paper", datasets: ["ShareGPT4V"], focus: "Research on detailed synthetic image descriptions.", status: "Literature context only; no dataset is loaded here." },
+            { id: "coconut_2025", year: "2025", model: "Panoptic captioning", venue: "Research paper", datasets: ["COCONut-PanCap"], focus: "Research connecting detailed image descriptions with panoptic annotations.", status: "Literature context only; no mask model is implemented here." }
         ];
 
         const datasetsMeta = {
-            "MS COCO": { scale: "123K / ~600K captions", avgWords: "~10.5 words", annotation: "Human annotators", risk: "Low (Short length)" },
-            "ShareGPT4V": { scale: "1.2M pre-train", avgWords: "~143.6 words", annotation: "GPT-4V automated", risk: "High (CHAIRs 20.7%)" },
-            "DOCCI": { scale: "15K / 15K captions", avgWords: "~136.0 words", annotation: "Human (Google)", risk: "Extremely Low" },
-            "COCONut-PanCap": { scale: "118K train / 5K val", avgWords: "~203.0 words", annotation: "13.2 Panoptic Masks", risk: "Low (Mask Grounded)" }
-        };
-
-        const playgroundImages = {
-            street: {
-                boxes: [
-                    { label: "pedestrians", x: 30, y: 120, w: 100, h: 140, color: "#10b981" },
-                    { label: "red bus", x: 140, y: 80, w: 180, h: 160, color: "#ef4444" }
-                ],
-                outputs: {
-                    era0: "A city street with a red bus and people on a sidewalk.",
-                    vinvl: "A busy city street with a red bus and pedestrians.",
-                    blip2: "A broad daylight view of an urban boulevard with pedestrians walking past a red double-decker bus.",
-                    llava: "The image shows a bustling city street scene with a large red bus driving alongside pedestrians.",
-                    sharegpt: "In this urban environment, several pedestrians wearing dark jackets are walking along a pavement. To their left, a large red bus is stopped near a crosswalk. Modern buildings rise in the background.",
-                    docci: "A wide urban street scene featuring three pedestrians on the left sidewalk and a large red bus in the middle lane.",
-                    coconut: "A detailed view showing three pedestrians [x:30,y:120] on a pavement walking past a red bus [x:140,y:80].",
-                    mmser: "Grounded scene extraction: 3 pedestrians [x:30,y:120] walking left; 1 red bus [x:140,y:80] in mid-ground. Verified."
-                }
-            },
-            kitchen: {
-                boxes: [
-                    { label: "refrigerator", x: 20, y: 40, w: 110, h: 220, color: "#3b82f6" },
-                    { label: "countertop", x: 120, y: 180, w: 260, h: 100, color: "#f59e0b" }
-                ],
-                outputs: {
-                    era0: "A modern kitchen with a refrigerator and a counter.",
-                    coconut: "An indoor kitchen showing a stainless refrigerator [x:20,y:40] adjacent to a marble countertop [x:120,y:180].",
-                    mmser: "Grounded kitchen extraction: 1 stainless refrigerator [x:20,y:40]; 1 marble countertop [x:120,y:180]."
-                }
-            },
-            nature: {
-                boxes: [{ label: "brown deer", x: 120, y: 100, w: 150, h: 150, color: "#d97706" }],
-                outputs: {
-                    era0: "A deer standing in a grassy forest field.",
-                    coconut: "A natural scene featuring a brown deer [x:120,y:100] standing in a green meadow.",
-                    mmser: "Grounded wildlife extraction: 1 brown deer [x:120,y:100] centered in meadow."
-                }
-            }
+            "MS COCO": { scope: "Common image-caption benchmark in the literature.", annotation: "Human-written captions are part of the dataset.", use: "Not loaded by CaptionLens." },
+            "ShareGPT4V": { scope: "Research dataset of detailed image descriptions.", annotation: "Includes synthetic descriptions.", use: "Not loaded by CaptionLens." },
+            "DOCCI": { scope: "Research dataset for detailed image descriptions.", annotation: "Human-authored descriptions.", use: "Not loaded by CaptionLens." },
+            "COCONut-PanCap": { scope: "Panoptic-captioning research dataset.", annotation: "Includes panoptic annotation concepts.", use: "No dataset or mask evaluation is wired here." }
         };
 
         const slideDeck = [
-            { title: "5-Year Evolution of Image Captioning (2021–2026)", notes: "Overview of architecture transitions from classical CNN-GRU baselines to grounded self-refinement." },
-            { title: "Four Chronological Architectural Eras", notes: "Tracing model paradigms from VinVL (2021) to BLIP-2 (2023), ShareGPT4V (2024), and MM-SeR (2026)." },
-            { title: "Dataset Trajectory & Annotation Scale", notes: "Exploding word lengths from MS COCO (~10 words) to COCONut-PanCap (~203 words + 13.2 panoptic masks)." },
-            { title: "Key Benchmark Milestone Matrix", notes: "Evaluating CIDEr, latency, and parameter efficiency across paradigms." },
-            { title: "Metrics Breakdown & The GCE Dilemma", notes: "Analyzing CHAIR object hallucination increases under synthetic pre-training." },
-            { title: "Strategic Takeaways & Future Frontiers", notes: "Perceptual grounding in sub-1B parameter LMs outperforms brute-force scaling." }
+            { title: "Image Captioning Research Overview", notes: "A literature map and software prototype; no new benchmark result is claimed." },
+            { title: "Model Families in the Literature", notes: "The page summarizes selected approaches; only BLIP base and Faster R-CNN are used by the local API." },
+            { title: "Datasets and Annotation Types", notes: "Dataset profiles are background information. No research dataset is bundled or loaded." },
+            { title: "CaptionLens Live Pipeline", notes: "The API generates a caption and independent detection boxes for a supplied image." },
+            { title: "Evaluation Utilities", notes: "BLEU-4 and ROUGE-L are optional reference metrics; CHAIR-inspired checks need object annotations." },
+            { title: "Current Limitations", notes: "No controlled training or benchmark study is recorded in this repository." }
         ];
 
-        let currentSampleKey = 'street';
         let currentSlideIdx = 0;
 
         function switchTab(tabId) {
@@ -576,25 +506,38 @@
                 const sec = document.getElementById(`sec-${t}`);
                 if (sec) sec.classList.toggle('hidden', t !== tabId);
             });
+            document.querySelectorAll('.tab-btn').forEach(button => {
+                const selected = button.id === `tab-${tabId}`;
+                button.classList.toggle('active', selected);
+                if (selected) button.setAttribute('aria-current', 'page');
+                else button.removeAttribute('aria-current');
+            });
             document.getElementById('mobileMenu').classList.add('hidden');
+            document.getElementById('mobileMenuToggle').setAttribute('aria-expanded', 'false');
             window.scrollTo({ top: 0, behavior: 'smooth' });
             if (tabId === 'playground') setTimeout(drawPlaygroundCanvas, 100);
         }
 
         function toggleMobileMenu() {
-            document.getElementById('mobileMenu').classList.toggle('hidden');
+            const menu = document.getElementById('mobileMenu');
+            const expanded = menu.classList.toggle('hidden') === false;
+            document.getElementById('mobileMenuToggle').setAttribute('aria-expanded', String(expanded));
         }
 
-        function renderPaperTable() {
+        function renderPaperTable(items = papersData) {
             const tbody = document.getElementById('paperTableBody');
-            tbody.innerHTML = papersData.map(p => `
+            if (items.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500">No papers match these filters.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = items.map(p => `
                 <tr class="hover:bg-slate-50 transition border-b">
                     <td class="p-3 font-bold text-slate-700">${p.year}</td>
                     <td class="p-3 font-bold text-slate-900">${p.model}</td>
                     <td class="p-3"><span class="px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded font-semibold">${p.venue}</span></td>
                     <td class="p-3">${p.datasets.join(', ')}</td>
                     <td class="p-3 text-slate-600">${p.focus}</td>
-                    <td class="p-3 font-medium text-emerald-800">${p.results}</td>
+                    <td class="p-3 font-medium text-emerald-800">${p.status}</td>
                 </tr>
             `).join('');
         }
@@ -602,84 +545,237 @@
         function updateDatasetComparison() {
             const nameA = document.getElementById('dsSelectA').value;
             const nameB = document.getElementById('dsSelectB').value;
-            const metaA = datasetsMeta[nameA] || {};
-            const metaB = datasetsMeta[nameB] || {};
+            const metaA = datasetsMeta[nameA];
+            const metaB = datasetsMeta[nameB];
 
             document.getElementById('comparisonGrid').innerHTML = `
                 <div class="p-4 bg-slate-50 rounded-xl border space-y-2">
                     <h4 class="font-bold text-slate-900">${nameA}</h4>
-                    <p class="text-xs"><strong>Scale:</strong> ${metaA.scale}</p>
-                    <p class="text-xs"><strong>Avg Words:</strong> <span class="font-bold text-emerald-800">${metaA.avgWords}</span></p>
+                    <p class="text-xs"><strong>Scope:</strong> ${metaA.scope}</p>
                     <p class="text-xs"><strong>Annotation:</strong> ${metaA.annotation}</p>
-                    <p class="text-xs"><strong>Hallucination Risk:</strong> ${metaA.risk}</p>
+                    <p class="text-xs"><strong>CaptionLens use:</strong> ${metaA.use}</p>
                 </div>
                 <div class="p-4 bg-slate-50 rounded-xl border space-y-2">
                     <h4 class="font-bold text-slate-900">${nameB}</h4>
-                    <p class="text-xs"><strong>Scale:</strong> ${metaB.scale}</p>
-                    <p class="text-xs"><strong>Avg Words:</strong> <span class="font-bold text-indigo-800">${metaB.avgWords}</span></p>
+                    <p class="text-xs"><strong>Scope:</strong> ${metaB.scope}</p>
                     <p class="text-xs"><strong>Annotation:</strong> ${metaB.annotation}</p>
-                    <p class="text-xs"><strong>Hallucination Risk:</strong> ${metaB.risk}</p>
+                    <p class="text-xs"><strong>CaptionLens use:</strong> ${metaB.use}</p>
                 </div>
             `;
         }
 
-        function loadSampleImage(key) {
-            currentSampleKey = key;
-            drawPlaygroundCanvas();
-            runInferenceSimulation();
-        }
+        const API_BASE_URL = document.querySelector('meta[name="captionlens-api-base"]').content.replace(/\/$/, '');
+        const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
+        let selectedFile = null;
+        let selectedImage = null;
+        let activeGroundingBoxes = [];
+        let inferenceInProgress = false;
 
         function drawPlaygroundCanvas(highlightBox = null) {
             const canvas = document.getElementById('playgroundCanvas');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
-            canvas.width = 400; canvas.height = 300;
+            canvas.width = 400;
+            canvas.height = 300;
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            const sample = playgroundImages[currentSampleKey];
-            ctx.fillStyle = '#334155'; ctx.fillRect(0, 0, 400, 300);
-
-            sample.boxes.forEach(b => {
-                const isHovered = highlightBox && highlightBox.label.toLowerCase() === b.label.toLowerCase();
-                ctx.strokeStyle = isHovered ? '#f59e0b' : b.color;
-                ctx.lineWidth = isHovered ? 4 : 2;
-                ctx.strokeRect(b.x, b.y, b.w, b.h);
-                ctx.fillStyle = b.color;
-                ctx.font = 'bold 10px sans-serif';
-                ctx.fillText(b.label.toUpperCase(), b.x + 4, b.y + 12);
+            if (selectedImage) ctx.drawImage(selectedImage, 0, 0, canvas.width, canvas.height);
+            activeGroundingBoxes.forEach(box => {
+                const highlighted = highlightBox === box;
+                ctx.strokeStyle = highlighted ? '#f59e0b' : box.color;
+                ctx.lineWidth = highlighted ? 4 : 2;
+                ctx.strokeRect(box.x, box.y, box.w, box.h);
+                ctx.fillStyle = box.color;
+                ctx.font = 'bold 11px sans-serif';
+                ctx.fillText(`${box.label} (${Math.round(box.confidence * 100)}%)`, box.x + 4, box.y + 14);
             });
         }
 
-        function runInferenceSimulation() {
-            const modelKey = document.getElementById('modelSelector').value;
-            const outputTextEl = document.getElementById('captionOutputText');
-            const sample = playgroundImages[currentSampleKey];
-            const captionText = (sample.outputs && sample.outputs[modelKey]) || sample.outputs.coconut || "Generated description.";
+        function handleUserImageUpload(event) {
+            const file = event.target.files && event.target.files[0];
+            const status = document.getElementById('apiStatus');
+            if (!file) return;
+            if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+                clearSelectedImage();
+                status.textContent = 'Choose a JPEG, PNG, or WebP image.';
+                return;
+            }
+            if (file.size > MAX_IMAGE_BYTES) {
+                clearSelectedImage();
+                status.textContent = 'Image is larger than the 10 MB limit.';
+                return;
+            }
 
-            outputTextEl.textContent = captionText;
-            document.getElementById('diagWordCount').textContent = captionText.split(' ').length;
-            document.getElementById('diagChairRisk').textContent = modelKey === 'sharegpt' ? "20.7% (High)" : "0.4% (Low)";
+            const imageUrl = URL.createObjectURL(file);
+            const image = new Image();
+            image.onload = () => {
+                if (selectedImage && selectedImage.src.startsWith('blob:')) URL.revokeObjectURL(selectedImage.src);
+                selectedFile = file;
+                selectedImage = image;
+                activeGroundingBoxes = [];
+                drawPlaygroundCanvas();
+                resetInferenceOutput();
+                status.textContent = `Ready: ${file.name}`;
+            };
+            image.onerror = () => {
+                URL.revokeObjectURL(imageUrl);
+                clearSelectedImage();
+                status.textContent = 'The selected file could not be decoded as an image.';
+            };
+            image.src = imageUrl;
+        }
 
-            const tagsContainer = document.getElementById('groundingTagsContainer');
-            tagsContainer.innerHTML = '';
-            sample.boxes.forEach(b => {
-                const tag = document.createElement('span');
-                tag.className = "grounding-tag px-2 py-1 bg-slate-100 text-slate-700 border rounded text-[11px] font-medium cursor-pointer";
-                tag.innerHTML = `📍 <strong>${b.label}</strong> [${b.x},${b.y}]`;
-                tag.onmouseenter = () => drawPlaygroundCanvas(b);
-                tag.onmouseleave = () => drawPlaygroundCanvas(null);
-                tagsContainer.appendChild(tag);
+        function resetInferenceOutput() {
+            document.getElementById('captionOutputText').textContent = 'Select “Run Caption + Detection” to process this image.';
+            document.getElementById('outputLatency').textContent = '—';
+            document.getElementById('diagWordCount').textContent = '0';
+            document.getElementById('diagChairRisk').textContent = 'Not evaluated';
+            document.getElementById('diagGroundingScore').textContent = 'Detection only';
+            document.getElementById('groundingTagsContainer').replaceChildren();
+        }
+
+        function clearSelectedImage() {
+            selectedFile = null;
+            if (selectedImage && selectedImage.src.startsWith('blob:')) URL.revokeObjectURL(selectedImage.src);
+            selectedImage = null;
+            activeGroundingBoxes = [];
+            document.getElementById('userImageUpload').value = '';
+            drawPlaygroundCanvas();
+            resetInferenceOutput();
+            document.getElementById('apiStatus').textContent = 'Image cleared.';
+        }
+
+        async function runCaptionInference() {
+            if (inferenceInProgress) return;
+            if (!selectedFile) {
+                document.getElementById('apiStatus').textContent = 'Choose an image before running inference.';
+                return;
+            }
+
+            inferenceInProgress = true;
+            const button = document.getElementById('runCaptionBtn');
+            const clearButton = document.getElementById('clearImageBtn');
+            const fileInput = document.getElementById('userImageUpload');
+            button.disabled = true;
+            clearButton.disabled = true;
+            fileInput.disabled = true;
+            button.textContent = 'Processing…';
+            document.getElementById('apiStatus').textContent = 'Sending image to the local API…';
+            document.getElementById('captionOutputText').textContent = 'Generating caption and detecting objects…';
+            activeGroundingBoxes = [];
+            document.getElementById('groundingTagsContainer').replaceChildren();
+            drawPlaygroundCanvas();
+
+            try {
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+                const response = await fetch(`${API_BASE_URL}/caption`, { method: 'POST', body: formData });
+                const data = await response.json().catch(() => ({}));
+                if (!response.ok) {
+                    throw new Error(data.detail || `API request failed (${response.status}).`);
+                }
+
+                document.getElementById('captionOutputText').textContent = data.caption;
+                document.getElementById('outputLatency').textContent = `${data.latency_ms} ms`;
+                document.getElementById('diagWordCount').textContent = data.word_count;
+                document.getElementById('diagChairRisk').textContent = 'Not evaluated';
+                document.getElementById('diagGroundingScore').textContent = 'Detection only';
+                activeGroundingBoxes = Array.isArray(data.grounding_boxes) ? data.grounding_boxes : [];
+                renderGroundingTags();
+                drawPlaygroundCanvas();
+                document.getElementById('apiStatus').textContent = `Inference complete on ${data.device}.`;
+            } catch (error) {
+                document.getElementById('captionOutputText').textContent = 'Caption generation failed.';
+                document.getElementById('apiStatus').textContent = error instanceof TypeError
+                    ? 'Cannot reach the local API. Start the backend and try again.'
+                    : error.message;
+                document.getElementById('outputLatency').textContent = '—';
+                document.getElementById('diagWordCount').textContent = '0';
+                activeGroundingBoxes = [];
+                renderGroundingTags();
+                drawPlaygroundCanvas();
+            } finally {
+                inferenceInProgress = false;
+                button.disabled = false;
+                clearButton.disabled = false;
+                fileInput.disabled = false;
+                button.textContent = 'Run Caption + Detection';
+            }
+        }
+
+        function renderGroundingTags() {
+            const container = document.getElementById('groundingTagsContainer');
+            container.replaceChildren();
+            activeGroundingBoxes.forEach(box => {
+                const tag = document.createElement('button');
+                tag.type = 'button';
+                tag.className = 'grounding-tag px-2 py-1 bg-slate-100 text-slate-700 border rounded text-[11px] font-medium';
+                tag.textContent = `${box.label} (${Math.round(box.confidence * 100)}%) · x:${Math.round(box.x)}, y:${Math.round(box.y)}`;
+                tag.addEventListener('mouseenter', () => drawPlaygroundCanvas(box));
+                tag.addEventListener('mouseleave', () => drawPlaygroundCanvas());
+                tag.addEventListener('focus', () => drawPlaygroundCanvas(box));
+                tag.addEventListener('blur', () => drawPlaygroundCanvas());
+                container.appendChild(tag);
             });
+            if (activeGroundingBoxes.length === 0) {
+                const empty = document.createElement('span');
+                empty.className = 'text-xs text-slate-500';
+                empty.textContent = 'No detections returned.';
+                container.appendChild(empty);
+            }
+        }
+
+        async function checkApiHealth() {
+            const status = document.getElementById('apiStatus');
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.detail || `API status ${response.status}`);
+                status.textContent = `API online · ${data.device}`;
+            } catch (error) {
+                status.textContent = 'Local API unavailable. Start it with the documented command, then retry.';
+            }
+        }
+
+        function filterPapers() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const year = document.getElementById('yearFilter').value;
+            const dataset = document.getElementById('datasetFilter').value.toLowerCase();
+            const filtered = papersData.filter(paper => {
+                const text = [paper.year, paper.model, paper.venue, paper.focus, paper.status, ...paper.datasets]
+                    .join(' ').toLowerCase();
+                return (!query || text.includes(query))
+                    && (year === 'ALL' || paper.year === year)
+                    && (dataset === 'all' || paper.datasets.some(name => name.toLowerCase() === dataset));
+            });
+            renderPaperTable(filtered);
+        }
+
+        function resetPaperFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('yearFilter').value = 'ALL';
+            document.getElementById('datasetFilter').value = 'ALL';
+            filterPapers();
         }
 
         function selectPipelineStep(stepKey) {
             const detailCard = document.getElementById('pipelineDetailCard');
             const steps = {
-                encoder: "Stage 01: Vision Encoder Backbone (InceptionResNetV2, ViT-L/14, SigLIP) - Extracts spatial feature maps.",
-                adapter: "Stage 02: Modality Connector Adapter (Q-Former, 2-Layer MLP) - Projects visual vectors into LLM space.",
-                decoder: "Stage 03: LLM Decoder Engine (Vicuna, LLaMA-3, Gemma-2, GRU) - Autoregressively generates text tokens.",
-                grounding: "Stage 04: Panoptic Grounding & Self-Refinement Head (COCONut Masks, MM-SeR) - Eliminates hallucinated tokens."
+                encoder: "The API uses BLIP's pretrained processor and caption model, then a pretrained Faster R-CNN detector. Both run on the configured PyTorch device.",
+                adapter: "No separate connector adapter is trained or loaded by the inference API. Optional LoRA training is a separate workflow.",
+                decoder: "BLIP generates the caption. The API returns decoded text and a whitespace-based word count.",
+                grounding: "Faster R-CNN returns object labels and boxes. The code does not align boxes to caption phrases or calculate localization accuracy."
             };
-            detailCard.innerHTML = `<p class="text-xs text-slate-200">${steps[stepKey]}</p>`;
+            if (!steps[stepKey]) return;
+            detailCard.textContent = steps[stepKey];
+            ['encoder', 'adapter', 'decoder', 'grounding'].forEach(key => {
+                const button = document.getElementById(`node-${key}`);
+                const selected = key === stepKey;
+                button.setAttribute('aria-pressed', String(selected));
+                button.classList.toggle('border-emerald-500', selected);
+                button.classList.toggle('border-slate-700', !selected);
+            });
         }
 
         function updateSlide() {
@@ -697,6 +793,14 @@
             updateDatasetComparison();
             selectPipelineStep('encoder');
             updateSlide();
+            document.getElementById('searchInput').addEventListener('input', filterPapers);
+            document.getElementById('yearFilter').addEventListener('change', filterPapers);
+            document.getElementById('datasetFilter').addEventListener('change', filterPapers);
+            document.getElementById('resetBtn').addEventListener('click', resetPaperFilters);
+            document.getElementById('userImageUpload').addEventListener('change', handleUserImageUpload);
+            document.getElementById('clearImageBtn').addEventListener('click', clearSelectedImage);
+            drawPlaygroundCanvas();
+            checkApiHealth();
         });
     </script>
 </body>

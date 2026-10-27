@@ -37,6 +37,19 @@ class ProductionEvaluator:
             "bike": "bicycle", "automobile": "car", "puppy": "dog", "kitty": "cat"
         }
 
+    @torch.no_grad()
+    def generate_caption(self, image_bytes: bytes) -> str:
+        """Generate a caption for one image using this evaluator's BLIP model."""
+        image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
+        inputs = self.processor(images=image, return_tensors="pt").to(self.device)
+        output_ids = self.model.generate(
+            **inputs,
+            max_new_tokens=50,
+            num_beams=3,
+            repetition_penalty=1.2,
+        )
+        return self.processor.decode(output_ids[0], skip_special_tokens=True)
+
     def normalize_and_extract_objects(self, caption: str) -> List[str]:
         caption_lower = caption.lower()
         compounds = [
