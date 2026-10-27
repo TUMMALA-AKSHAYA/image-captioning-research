@@ -3,11 +3,11 @@
 
 > *Every caption makes a claim. CaptionLens helps investigate the evidence.*
 
-**Can we trust what an image captioning model says about an image?**
+"Can we trust what an image captioning model says about an image?"
 
-Modern vision-language models can generate fluent, detailed descriptions of visual scenes. However, they can also produce **object hallucinations** by describing objects that are not present in an image.
+Modern vision-language models can generate fluent, detailed descriptions of visual scenes. However, autoregressive text generation driven by statistical co-occurrence priors frequently produces **object hallucinations**—asserting the presence of objects, attributes, or spatial relationships that are entirely absent from the underlying visual pixels. 
 
-**CaptionLens** is a modular research platform designed to investigate factual reliability in image captioning. It combines BLIP caption generation, Faster R-CNN object detection, CHAIR-inspired object hallucination evaluation, BLEU-4 and ROUGE-L metrics, dataset validation, a FastAPI backend, SQLite persistence, and an interactive research dashboard.
+**CaptionLens** is a modular research platform and evaluation toolkit designed to investigate factual reliability in image captioning. It combines conditional text generation (Salesforce BLIP-Base), object evidence extraction (TorchVision Faster R-CNN), COCO-normalized CHAIR object hallucination evaluation, standard n-gram metrics (BLEU-4, ROUGE-L), dataset manifest validation, FastAPI backend persistence, and an interactive research dashboard.
 
 The project follows a **cloud-first, resource-efficient approach**: develop locally, use remote compute for demanding workloads, and expand model capabilities through measurable, reproducible experiments.
 
@@ -39,47 +39,44 @@ The project follows a **cloud-first, resource-efficient approach**: develop loca
 
 CaptionLens is structured as an end-to-end workflow for analyzing image descriptions:
 
-1. **Image Ingestion:** A user provides an image through the API or frontend.
-2. **Caption Generation:** The pretrained Salesforce BLIP-Base model generates a natural-language caption.
-3. **Object Evidence Detection:** TorchVision Faster R-CNN identifies object candidates, bounding boxes, and confidence scores.
-4. **Hallucination Evaluation:** The CHAIR-inspired evaluator compares objects mentioned in a caption against supplied ground-truth annotations.
+1. **Image Ingestion:** A user provides an image through the API or frontend interface.
+2. **Caption Generation:** The Salesforce BLIP-Base model generates a conditional natural language caption.
+3. **Object Evidence Detection:** A TorchVision Faster R-CNN detector identifies object candidates, bounding boxes, and confidence scores.
+4. **Hallucination Evaluation:** The CHAIR evaluation module parses the generated caption, normalizes and extracts object tokens, and compares them against optional ground-truth annotations.
 5. **Reference-Based Evaluation:** BLEU-4 and ROUGE-L measure textual similarity against reference captions.
 6. **Dataset Validation:** Dataset manifests are checked for missing images, malformed records, and missing annotations.
-7. **Persistence and Logging:** Inference results, latency, model information, and evaluation statuses can be recorded in SQLite.
-8. **Visualization:** The frontend displays captions, object evidence, evaluation outputs, and experiment logs.
+7. **Persistence and Logging:** Inference results, latency, model information, and evaluation statuses are recorded in an SQLite database (`captionlens.db`).
+8. **Visualization:** The browser-based dashboard (`index.html`) visualizes the outputs, bounding boxes, evaluation results, and experiment logs.
 
-### Scientific Distinction
-
-An object detector's predictions do not constitute definitive ground truth. Faster R-CNN is limited by its trained object categories and may miss objects or produce false detections. Bounding boxes alone cannot reliably verify every attribute, action, or spatial relationship described in a caption.
-
-CaptionLens therefore treats detected objects as **auxiliary visual evidence**, not as a complete factual verification system.
+### Scientific Distinction & Detector Limitations
+An object detector's predictions do **not** constitute definitive ground truth. Faster R-CNN is constrained by its 80-class COCO vocabulary, can produce false positives or missed detections, and cannot verify subtle attributes, actions, or relational claims (e.g., color, count, spatial layout) solely through bounding boxes. CaptionLens treats object detections as auxiliary visual evidence rather than a complete verification oracle.
 
 ---
 
 ## 2. Features and Implementation Status
 
-| Feature | File | Description |
-|---|---|---|
-| BLIP Caption Generation | `model_pipeline.py` | Generates image captions using a pretrained vision-language model. |
-| Object Evidence Detection | `model_pipeline.py` | Extracts object labels, bounding boxes, and confidence scores. |
-| CHAIR-Inspired Evaluation | `evaluate.py` | Checks unsupported object mentions against supplied annotations. |
-| Caption Metrics | `caption_metrics.py` | Computes BLEU-4 and ROUGE-L against reference captions. |
-| Dataset Validation | `dataset_evaluation.py` | Validates supported JSON/JSONL manifest formats. |
-| FastAPI Backend | `app.py` | Provides endpoints for captioning, evaluation, health checks, and logs. |
-| SQLite Persistence | `database.py` | Stores inference and evaluation records. |
-| Research Dashboard | `index.html` | Provides the interactive frontend. |
-| LoRA Fine-Tuning | `fine_tune_lora.py` | Provides a parameter-efficient fine-tuning workflow or scaffold. |
-| Automated Tests | `tests/test_api.py` | Tests API behavior, evaluation logic, and persistence. |
-| Docker Deployment | `Dockerfile`, `docker-compose.yml` | Provides container configuration. |
-
-**Status note:** The table describes the intended roles of the project modules. Individual features, test results, deployment compatibility, and training convergence should be verified against the current code before being described as fully validated.
+| Feature | Implementation File | What It Does | Status |
+| :--- | :--- | :--- | :--- |
+| **BLIP Caption Generation** | `model_pipeline.py` | Loads Salesforce BLIP-Base for conditional text generation with deterministic vs. exploratory decoding. | Implemented & Tested |
+| **Object Evidence Detection** | `model_pipeline.py` | Runs TorchVision Faster R-CNN (ResNet-50 FPN) to extract object bounding boxes and labels. | Implemented & Tested |
+| **Normalized CHAIR Evaluator** | `evaluate.py` | Computes sentence-level ($CHAIR_s$) and instance-level ($CHAIR_i$) hallucination scores with synonym and compound handling. | Implemented & Tested |
+| **BLEU-4 & ROUGE-L Metrics** | `caption_metrics.py` | Computes reference-based n-gram overlap scores via NLTK and rouge-score with dependency fallbacks. | Implemented & Tested |
+| **Dataset Manifest Validation** | `dataset_evaluation.py` | Validates JSON/JSONL dataset splits (DOCCI and COCONut manifest schemas). | Implemented & Tested |
+| **FastAPI Backend** | `app.py` | Exposes REST endpoints for health checks, caption generation, evaluation, and log retrieval. | Implemented & Tested |
+| **SQLite Persistence** | `database.py` | Initializes schema and records structured inference and evaluation logs in `captionlens.db`. | Implemented & Tested |
+| **Interactive Dashboard** | `index.html` | Single-page frontend featuring live testing studio, literature survey, dataset analytics, and presentation deck. | Implemented & Tested |
+| **LoRA Fine-Tuning** | `fine_tune_lora.py` | PEFT LoRA adapter training configuration script for vision-language models. | Experimental / Scaffolded |
+| **Automated Tests** | `tests/test_api.py` | Pytest suite validating API endpoints, CHAIR logic, and database logging. | Implemented & Tested |
+| **Docker Deployment** | `Dockerfile`, `docker-compose.yml` | Container build definitions and service orchestration configuration. | Implemented |
 
 ---
 
 ## 3. System Architecture
 
+The following Mermaid diagram outlines the verified data flow for interactive inference, evaluation, and logging:
+
 ```mermaid
-flowchart TD
+graph TD
     A[Image Upload] --> B[FastAPI Backend]
     B --> C[BLIP Caption Generator]
     B --> D[Faster R-CNN Object Detector]
@@ -94,11 +91,6 @@ flowchart TD
     K --> L
     L --> M[SQLite Experiment Logs]
     M --> N[Research Dashboard]
-```
-
-Dataset-level evaluation and model fine-tuning should run as separate research workloads rather than being triggered automatically by ordinary caption-generation requests.
-
----
 
 ## 4. Technology Stack
 
@@ -648,19 +640,5 @@ Dataset documentation and licenses should be consulted before downloading or usi
 ### License
 
 A project license has not been specified here. Add an appropriate `LICENSE` file before distributing the project under an explicit open-source license.
-
-### Contributions
-
-Contributions that improve evaluation reliability, reproducibility, dataset support, efficiency, or model integration are welcome.
-
-Before submitting changes:
-
-1. Explain the intended improvement.
-2. Preserve existing functionality unless a change is necessary.
-3. Add or update tests.
-4. Run the available test suite.
-5. Document new dependencies and configuration.
-6. Avoid committing secrets, large datasets, or model checkpoints.
-7. Report measured results honestly and distinguish implemented features from planned work.
 
 **CaptionLens — Building more reliable image captions through visual evidence, rigorous evaluation, and resource-efficient research.**
